@@ -35,6 +35,7 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
 
     private ImageBundle imageBundle;
     private MenuView baseView;
+    private ImageDetailsActivity imageDetails = new ImageDetailsActivity();
     private Button bExitingImage;
     private Button bTakePhoto;
     private Button bGallery;
@@ -53,7 +54,7 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
 
 
         bTakePhoto = findViewById(R.id.bTakePhoto);
-        iImageView = (ImageView)findViewById(R.id.imageView);
+       // iImageView = (ImageView)findViewById(R.id.imageView);
         bGallery = findViewById(R.id.bGallery);
 
         bGallery.setOnClickListener(new View.OnClickListener() {
@@ -79,13 +80,13 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
             Log.e("uri-:", uri);
             Toast.makeText(this, outPutfileUri.toString(),Toast.LENGTH_LONG).show();
 
-            try {
-                mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outPutfileUri);
-                Drawable draw = new BitmapDrawable(getResources(), mBitmap);
-                iImageView.setImageDrawable(draw);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outPutfileUri);
+//                Drawable draw = new BitmapDrawable(getResources(), mBitmap);
+//                iImageView.setImageDrawable(draw);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
 
         }

@@ -16,7 +16,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu);
+        setContentView(R.layout.activity_seefood);
     }
 
     private void displaySelectedImages(){
