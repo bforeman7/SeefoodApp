@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -28,6 +29,8 @@ import java.io.IOException;
 
 import CustomViews.MenuView;
 import ImageModel.ImageBundle;
+import in.mayanknagwanshi.imagepicker.imageCompression.ImageCompressionListener;
+import in.mayanknagwanshi.imagepicker.imagePicker.ImagePicker;
 import test.hulbert.seefood.BuildConfig;
 import test.hulbert.seefood.R;
 
@@ -43,73 +46,50 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     private Context mContext=MainMenuActivity.this;
     private static final int REQUEST = 112;
     private Bitmap mBitmap;
-    private Uri outPutfileUri;
-
+    private ImagePicker imagePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
+        imagePicker = new ImagePicker();
         Permissions();
-
-
-        bTakePhoto = findViewById(R.id.bTakePhoto);
-       // iImageView = (ImageView)findViewById(R.id.imageView);
-        bGallery = findViewById(R.id.bGallery);
-
-        bGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoGallery(v);
-            }
-        });
-
-        bTakePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                takPictures(v);
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == 1 && resultCode==RESULT_OK) {
-
-            String uri = outPutfileUri.toString();
-            Log.e("uri-:", uri);
-            Toast.makeText(this, outPutfileUri.toString(),Toast.LENGTH_LONG).show();
-
-//            try {
-//                mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outPutfileUri);
-//                Drawable draw = new BitmapDrawable(getResources(), mBitmap);
-//                iImageView.setImageDrawable(draw);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-
-        }
+        iImageView = findViewById(R.id.imageView);
     }
 
     public void gotoGallery(View view){
-        Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 2);;
+        imagePicker.withActivity(this).chooseFromGallery(true).withCompression(true).start();
     }
 
     public void selectImages(View view){
-
+        imagePicker.withActivity(this).chooseFromGallery(false).withCompression(true).start();
     }
 
-    public void takPictures(View view){
-        Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = new File(Environment.
-                getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "MyPhoto.png");
-        outPutfileUri = FileProvider.getUriForFile(
-                MainMenuActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
-        startActivityForResult(intent, 1);
+    @Override
+    protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
+        if (requestCode == ImagePicker.SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
+            //Add compression listener if withCompression is set to true
+            imagePicker.addOnCompressListener(new ImageCompressionListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onCompressed(String filePath) {//filePath of the compressed image
+                    //convert to bitmap easily
+                    Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+                    iImageView.setImageBitmap(selectedImage);
+                    // we need exception handling here if the image is not selected for camera!
+                }
+            });
+        }
+        //call the method 'getImageFilePath(Intent data)' even if compression is set to false
+        String filePath = imagePicker.getImageFilePath(data);
+        if (filePath != null) {//filePath will return null if compression is set to true
+            Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private static boolean hasPermissions(Context context, String... permissions) {
