@@ -8,19 +8,19 @@ public class ImageBundle {
     private Collection<Image> images;
     //private Controllable controller
 
-    public Image getImageByID(int nIDnumber){
-
-    }
+//    public Image getImageByID(int nIDnumber){
+//
+//    }
 
     public void deleteImageByID(int nIDnumber){
 
     }
 
-    public String compressImages(){
-
-    }
-
-    public JSONObject convertImagesDataToJSON(){
-
-    }
+//    public String compressImages(){
+//
+//    }
+//
+//    public JSONObject convertImagesDataToJSON(){
+//
+//    }
 }
