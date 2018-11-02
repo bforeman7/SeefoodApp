@@ -38,6 +38,7 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
 
     private ImageBundle imageBundle;
     private MenuView baseView;
+    private PhotoGalleryActivity myGallery;
     private ImageDetailsActivity imageDetails = new ImageDetailsActivity();
     private Button bExitingImage;
     private Button bTakePhoto;
@@ -55,10 +56,11 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
         imagePicker = new ImagePicker();
         Permissions();
         iImageView = findViewById(R.id.imageView);
+        imageBundle = new ImageBundle();
     }
 
     public void gotoGallery(View view){
-        imagePicker.withActivity(this).chooseFromGallery(true).withCompression(true).start();
+        myGallery.displayGallery(imagePicker);
     }
 
     public void selectImages(View view){
@@ -69,25 +71,8 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
         if (requestCode == ImagePicker.SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
             //Add compression listener if withCompression is set to true
-            imagePicker.addOnCompressListener(new ImageCompressionListener() {
-                @Override
-                public void onStart() {
 
-                }
-
-                @Override
-                public void onCompressed(String filePath) {//filePath of the compressed image
-                    //convert to bitmap easily
-                    Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
-                    iImageView.setImageBitmap(selectedImage);
-                    // we need exception handling here if the image is not selected for camera!
-                }
-            });
-        }
-        //call the method 'getImageFilePath(Intent data)' even if compression is set to false
-        String filePath = imagePicker.getImageFilePath(data);
-        if (filePath != null) {//filePath will return null if compression is set to true
-            Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+           imageBundle.compressImages(data,imagePicker);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

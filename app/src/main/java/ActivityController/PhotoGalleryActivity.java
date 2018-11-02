@@ -6,6 +6,7 @@ import android.view.View;
 
 import CustomViews.GalleryView;
 import ImageModel.ImageBundle;
+import in.mayanknagwanshi.imagepicker.imagePicker.ImagePicker;
 import test.hulbert.seefood.R;
 
 public class PhotoGalleryActivity extends AppCompatActivity implements Controllable {
@@ -18,8 +19,8 @@ public class PhotoGalleryActivity extends AppCompatActivity implements Controlla
         setContentView(R.layout.main_menu);
     }
 
-    public void displayGallery(){
-
+    public void displayGallery(ImagePicker imagePicker){
+        imagePicker.withActivity(this).chooseFromGallery(true).withCompression(true).start();
     }
 
     public void getSpecificNumberOfImagesFromServer(int nNumber1, int nNumber2){
