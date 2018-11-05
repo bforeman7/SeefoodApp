@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import CustomViews.GalleryView;
 import CustomViews.MenuView;
 import ImageModel.ImageBundle;
 import in.mayanknagwanshi.imagepicker.imageCompression.ImageCompressionListener;
@@ -60,7 +61,7 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     }
 
     public void gotoGallery(View view){
-        myGallery.displayGallery(imagePicker);
+        imagePicker.withActivity(this).chooseFromGallery(true).withCompression(true).start();
     }
 
     public void selectImages(View view){

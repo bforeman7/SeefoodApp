@@ -20,7 +20,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements Controlla
     }
 
     public void displayGallery(ImagePicker imagePicker){
-        imagePicker.withActivity(this).chooseFromGallery(true).withCompression(true).start();
+
     }
 
     public void getSpecificNumberOfImagesFromServer(int nNumber1, int nNumber2){
