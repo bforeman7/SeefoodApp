@@ -73,7 +73,30 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
         if (requestCode == ImagePicker.SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
             //Add compression listener if withCompression is set to true
 
-           imageBundle.compressImages(data,imagePicker);
+            //imagePicker.withCompression(true);
+            //imagePicker.start();
+            imagePicker.addOnCompressListener(new ImageCompressionListener() {
+                @Override
+                public void onStart() {
+                    // picker.withCompression(true);
+                }
+
+                @Override
+                public void onCompressed(String filePath) {//filePath of the compressed image
+                    //convert to bitmap easily
+                    Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+                    imageBundle.getImages().add(selectedImage);
+
+                    //iImageView.setImageBitmap(selectedImage);
+                    // we need exception handling here if the image is not selected for camera!
+                }
+            });
+            try {
+                String filePath = imagePicker.getImageFilePath(data);
+                if (filePath != null) {//filePath will return null if compression is set to true
+                    Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+                }
+            }catch (Exception e){}
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -21,31 +21,8 @@ public class ImageBundle {
     }
 
 
-    public void compressImages(Intent data,ImagePicker imagePicker){
-        //imagePicker.withCompression(true);
-        //imagePicker.start();
-        imagePicker.addOnCompressListener(new ImageCompressionListener() {
-            @Override
-            public void onStart() {
-               // picker.withCompression(true);
-            }
+    public void compressImages(){
 
-            @Override
-            public void onCompressed(String filePath) {//filePath of the compressed image
-                //convert to bitmap easily
-                Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
-                images.add(selectedImage);
-
-                //iImageView.setImageBitmap(selectedImage);
-                // we need exception handling here if the image is not selected for camera!
-            }
-        });
-        try {
-            String filePath = imagePicker.getImageFilePath(data);
-            if (filePath != null) {//filePath will return null if compression is set to true
-                Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
-            }
-        }catch (Exception e){}
     }
 
 //    public JSONObject convertImagesDataToJSON(){
