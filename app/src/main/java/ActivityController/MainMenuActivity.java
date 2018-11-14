@@ -60,7 +60,7 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu);
+        setContentView(R.layout.seefood_final);
 
         imagePicker = new ImagePicker();
         Permissions();
