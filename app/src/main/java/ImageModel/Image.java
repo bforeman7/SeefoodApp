@@ -9,6 +9,7 @@ public class Image {
     private String dateTaken;
     private String sName;
     private int nConfidenceRating;
+    private String sFilePath;
 
     public Bitmap getBitmap() {
         return bitmap;
@@ -42,4 +43,11 @@ public class Image {
         this.sName = sName;
     }
 
+    public String getsFilePath() {
+        return sFilePath;
+    }
+
+    public void setsFilePath(String sFilePath) {
+        this.sFilePath = sFilePath;
+    }
 }

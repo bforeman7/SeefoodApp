@@ -13,24 +13,17 @@ import in.mayanknagwanshi.imagepicker.imageCompression.ImageCompressionListener;
 import in.mayanknagwanshi.imagepicker.imagePicker.ImagePicker;
 
 public class ImageBundle {
-    private ArrayList<Bitmap> images = new ArrayList<>();
+    private ArrayList<Image> images = new ArrayList<>();
+    private String sBitmapPath;
     //private Controllable controller
 
-    public Bitmap getImageByID(int nIDnumber){
+    public Image getImageByID(int nIDnumber){
+
         return images.get(nIDnumber);
     }
 
 
-    public void compressImages(){
-
-    }
-
-//    public JSONObject convertImagesDataToJSON(){
-//
-//    }
-
-
-    public ArrayList<Bitmap> getImages() {
+    public ArrayList<Image> getImages() {
         return images;
     }
 
@@ -40,5 +33,9 @@ public class ImageBundle {
      */
     public void deleteImageByID(int nPosition){
         images.remove(nPosition);
+    }
+
+    public String getsBitmapPath() {
+        return sBitmapPath;
     }
 }

@@ -40,7 +40,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         }
         for (int i = 0; i < imageBundle.getImages().size(); i++){
             myLinearLayout.addView(imageView[i],i);
-            imageView[i].setImageBitmap(imageBundle.getImageByID(i));
+            imageView[i].setImageBitmap(imageBundle.getImageByID(i).getBitmap());
         }
     }
 

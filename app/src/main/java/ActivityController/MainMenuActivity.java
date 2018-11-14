@@ -24,11 +24,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+import Communication.Endpoints;
 import CustomViews.GalleryView;
 import CustomViews.MenuView;
+import ImageModel.Image;
 import ImageModel.ImageBundle;
 import in.mayanknagwanshi.imagepicker.imageCompression.ImageCompressionListener;
 import in.mayanknagwanshi.imagepicker.imagePicker.ImagePicker;
@@ -49,6 +56,7 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     private static final int REQUEST = 112;
     private Bitmap mBitmap;
     private ImagePicker imagePicker;
+    private OutputStream os;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +69,16 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     }
 
     public void gotoGallery(View view){
-        imagePicker.withActivity(this).chooseFromGallery(true).withCompression(true).start();
+        imagePicker.withActivity(this).chooseFromGallery(true).withCompression(false).start();
     }
 
     public void selectImages(View view){
-        imagePicker.withActivity(this).chooseFromGallery(false).withCompression(true).start();
+        imagePicker.withActivity(this).chooseFromGallery(false).withCompression(false).start();
+    }
+
+    public void postImage(View view){
+       // Endpoints endpoints = new Endpoints(this);
+        //endpoints.postFile(imageBundle,2);
     }
 
     @Override
@@ -73,8 +86,6 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
         if (requestCode == ImagePicker.SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
             //Add compression listener if withCompression is set to true
 
-            //imagePicker.withCompression(true);
-            //imagePicker.start();
             imagePicker.addOnCompressListener(new ImageCompressionListener() {
                 @Override
                 public void onStart() {
@@ -82,19 +93,24 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
                 }
 
                 @Override
-                public void onCompressed(String filePath) {//filePath of the compressed image
+                public void onCompressed(String filePath)  {//filePath of the compressed image
                     //convert to bitmap easily
                     Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
-                    imageBundle.getImages().add(selectedImage);
-
-                    //iImageView.setImageBitmap(selectedImage);
-                    // we need exception handling here if the image is not selected for camera!
                 }
             });
             try {
                 String filePath = imagePicker.getImageFilePath(data);
                 if (filePath != null) {//filePath will return null if compression is set to true
                     Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+                    //this creates a new image object to add the new image and
+                    //store the bitmap and the file path and the time.
+                    SimpleDateFormat date = new SimpleDateFormat("MM-DD-yyyy");
+                    Date newDate = new Date(Calendar.DATE);
+                    Image image = new Image();
+                    image.setBitmap(selectedImage);
+                    image.setsFilePath(filePath);
+                    image.setDateTaken(date.format(newDate));
+                    imageBundle.getImages().add(image);
                 }
             }catch (Exception e){}
         }
