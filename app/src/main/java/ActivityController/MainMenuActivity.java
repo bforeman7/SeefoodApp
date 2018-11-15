@@ -77,8 +77,8 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     }
 
     public void postImage(View view){
-       // Endpoints endpoints = new Endpoints(this);
-        //endpoints.postFile(imageBundle,2);
+        Endpoints endpoints = new Endpoints(this);
+        endpoints.postFile(imageBundle,0);
     }
 
     @Override

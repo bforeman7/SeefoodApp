@@ -2,15 +2,17 @@ package Communication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.nfc.Tag;
+import android.os.StrictMode;
 import android.util.Base64;
 import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+//import com.android.volley.Request;
+//import com.android.volley.RequestQueue;
+//import com.android.volley.Response;
+//import com.android.volley.VolleyError;
+//import com.android.volley.toolbox.StringRequest;
+//import com.android.volley.toolbox.Volley;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -39,14 +41,21 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
 import ImageModel.ImageBundle;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class Endpoints {
     private final String myUrl = "http://0.0.0.0:5000/image";
-    private RequestQueue requestQueue;
+   // private RequestQueue requestQueue;
     private Context context;
     private DefaultHttpClient mHttpClient;
     private ImageBundle imageBundle;
@@ -160,37 +169,68 @@ public class Endpoints {
 //    //
 //    //        requestQueue.add(postReq);
     public JSONObject postFile(ImageBundle image, int imageNumber) {
+
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         imageBundle = image;
         //this will get the specific image numbers path.
         myPath = imageBundle.getImages().get(imageNumber).getsFilePath();
-        String result = "";
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(myUrl);
-        File file = new File(myPath);
-        MultipartEntity mpEntity = new MultipartEntity();
-        ContentBody cbFile = new FileBody(file, "image/png");
-        StringBody stringBody = null;
-        JSONObject responseObject = null;
+
         try {
-            stringBody = new StringBody(imageNumber + "");
-            mpEntity.addPart("file", cbFile);
-            mpEntity.addPart("id", stringBody);
-            httpPost.setEntity(mpEntity);
-            System.out.println("executing request " + httpPost.getRequestLine());
-            HttpResponse response = httpClient.execute(httpPost);
-            HttpEntity resEntity = response.getEntity();
-            result = resEntity.toString();
-            responseObject = new JSONObject(result);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+
+            final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+
+            RequestBody req = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("userid", "8457851245")
+                    .addFormDataPart("userfile","profile.png", RequestBody.create(MEDIA_TYPE_PNG, myPath)).build();
+
+            Request request = new Request.Builder().url(myUrl).post(req).build();
+
+            OkHttpClient client = new OkHttpClient();
+            Response response = client.newCall(request).execute();
+
+            Log.d("response", "uploadImage:"+response.body().string());
+
+            return new JSONObject(response.body().string());
+
+        } catch (UnknownHostException | UnsupportedEncodingException e) {
+            //Log.e(Tag, "Error: " + e.getLocalizedMessage());
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return responseObject;
+        return null;
+
+//        String result = "";
+//        HttpClient httpClient = new DefaultHttpClient();
+//        HttpPost httpPost = new HttpPost(myUrl);
+//        File file = new File(myPath);
+//        MultipartEntity mpEntity = new MultipartEntity();
+//        ContentBody cbFile = new FileBody(file, "image/png");
+//        StringBody stringBody = null;
+//        JSONObject responseObject = null;
+//        try {
+//            stringBody = new StringBody(imageNumber + "");
+//            mpEntity.addPart("file", cbFile);
+//            mpEntity.addPart("id", stringBody);
+//            httpPost.setEntity(mpEntity);
+//            System.out.println("executing request " + httpPost.getRequestLine());
+//            HttpResponse response = httpClient.execute(httpPost);
+//            HttpEntity resEntity = response.getEntity();
+//            result = resEntity.toString();
+//            responseObject = new JSONObject(result);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (ClientProtocolException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return responseObject;
     }
 }
 
