@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -60,7 +62,7 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.seefood_final);
+        setContentView(R.layout.image_finalization_final);
 
         imagePicker = new ImagePicker();
         Permissions();
@@ -77,8 +79,10 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     }
 
     public void postImage(View view){
-       // Endpoints endpoints = new Endpoints(this);
-        //endpoints.postFile(imageBundle,2);
+//        if(imageBundle.getImages().size() != 0) {
+//            Endpoints.postImage(imageBundle.getImageByID(0).getsFilePath());
+//        }
+        JSONObject json = Endpoints.getImages(1, 3);
     }
 
     @Override

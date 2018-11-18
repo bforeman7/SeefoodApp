@@ -26,7 +26,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="158dp"
-        android:background="@color/primaryLightColor"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -38,6 +38,7 @@
             android:layout_margin="10dp"
             android:alpha="1"
             android:background="@color/white"
+            android:backgroundTint="@color/colorAccent"
             android:drawableTop="@drawable/baseline_camera_alt_black_18dp"
             android:text="Upload Images"
             android:textAlignment="center" />
@@ -49,6 +50,7 @@
             android:layout_margin="10dp"
             android:alpha="1"
             android:background="@color/white"
+            android:backgroundTint="@color/colorAccent"
             android:drawableTop="@drawable/baseline_photo_library_black_18dp"
             android:text="View Gallery"
             android:textAlignment="center" />
