@@ -2,7 +2,7 @@ package CustomViews;
 
 import android.view.View;
 
-interface BaseView {
+public interface BaseView {
 
      View getRootView();
 }

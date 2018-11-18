@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -44,6 +45,11 @@ import in.mayanknagwanshi.imagepicker.imagePicker.ImagePicker;
 import test.hulbert.seefood.BuildConfig;
 import test.hulbert.seefood.R;
 
+/*
+This class is now deprecated and only here for testing purposes. MenuActivity is its replacement.
+ */
+
+
 public class MainMenuActivity extends AppCompatActivity implements Controllable{
 
     private ImageBundle imageBundle;
@@ -62,7 +68,7 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.image_finalization_final);
+        setContentView(R.layout.home_final);
 
         imagePicker = new ImagePicker();
         Permissions();

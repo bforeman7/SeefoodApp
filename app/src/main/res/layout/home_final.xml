@@ -32,7 +32,7 @@
 
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/menu_bUploadImages"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -40,11 +40,12 @@
             android:background="@color/white"
             android:backgroundTint="@color/colorAccent"
             android:drawableTop="@drawable/baseline_camera_alt_black_18dp"
+            android:onClick="uploadImages"
             android:text="Upload Images"
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/menu_bViewGallery"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -52,6 +53,7 @@
             android:background="@color/white"
             android:backgroundTint="@color/colorAccent"
             android:drawableTop="@drawable/baseline_photo_library_black_18dp"
+            android:onClick="gotoGallery"
             android:text="View Gallery"
             android:textAlignment="center" />
 

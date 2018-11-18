@@ -10,12 +10,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ActivityController.MainMenuActivity">
+        <activity android:name="ActivityController.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="ActivityController.ImageSelectionMenuActivity"></activity>
+        <activity android:name="ActivityController.ImageUploadActivity"></activity>
+        <activity android:name="ActivityController.SeefoodActivity"></activity>
+        <activity android:name="ActivityController.PhotoGalleryActivity"></activity>
+        <activity android:name="ActivityController.ImageDetailsActivity"></activity>
     </application>
 
 </manifest>
