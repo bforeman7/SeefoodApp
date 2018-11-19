@@ -40,7 +40,7 @@
             android:background="@color/white"
             android:backgroundTint="@color/colorAccent"
             android:drawableTop="@drawable/baseline_camera_alt_black_18dp"
-            android:onClick="uploadImages"
+            android:onClick="TakePhoto"
             android:text="Upload Images"
             android:textAlignment="center" />
 

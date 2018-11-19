@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import Communication.Endpoints;
 import CustomViews.ImageBundleView;
 import CustomViews.MenuView;
 import CustomViews.SeefoodView;
@@ -39,27 +40,13 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
     }
 
-    /**
-     * This will load multiple imageviews based on the number of images
-     * in an imagebundle.  That way the user can load specific number of
-     * images to the view at a time.
-     * */
-//    private void displaySelectedImages(){
-//        for (int i = 0; i < imageBundle.getImages().size(); i++){
-//            imageView[i] = new ImageView(this);
-//        }
-//        for (int i = 0; i < imageBundle.getImages().size(); i++){
-//            myLinearLayout.addView(imageView[i],i);
-//            imageView[i].setImageBitmap(imageBundle.getImageByID(i).getBitmap());
-//        }
-//    }
 
     public void updateConfidenceRating(int nRatingIncrease){
 
     }
 
     public void sendImagesToServer(View view){
-
+        Endpoints server = new Endpoints();
     }
 
     @Override

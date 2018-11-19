@@ -9,8 +9,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import in.mayanknagwanshi.imagepicker.imageCompression.ImageCompressionListener;
-import in.mayanknagwanshi.imagepicker.imagePicker.ImagePicker;
 
 public class ImageBundle {
     private ArrayList<Image> images = new ArrayList<>();
