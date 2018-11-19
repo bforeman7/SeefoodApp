@@ -56,29 +56,39 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     private static final int REQUEST = 112;
     private Bitmap mBitmap;
     private ImagePicker imagePicker;
-    private OutputStream os;
+    private FileOutputStream os;
+    private MenuView menuView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.seefood_final);
+        setContentView(R.layout.home_final);
 
         imagePicker = new ImagePicker();
         Permissions();
         iImageView = findViewById(R.id.imageView);
         imageBundle = new ImageBundle();
+        menuView = new MenuView(this);
     }
 
     public void gotoGallery(View view){
-        imagePicker.withActivity(this).chooseFromGallery(true).withCompression(false).start();
+
     }
 
-    public void selectImages(View view){
-        imagePicker.withActivity(this).chooseFromGallery(false).withCompression(false).start();
+    public void takePicture(View view){
+
     }
 
     public void postImage(View view){
         Endpoints endpoints = new Endpoints(this);
         endpoints.postFile(imageBundle,0);
+    }
+
+    public void takePhotoButtonAction(View view){
+        //menuView.;
+    }
+
+    public void uploadPhotoButtonAction(){
+        menuView.uploadPictureButton();
     }
 
     @Override

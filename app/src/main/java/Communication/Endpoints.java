@@ -46,6 +46,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ImageModel.ImageBundle;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -54,7 +56,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class Endpoints {
-    private final String myUrl = "http://0.0.0.0:5000/image";
+    private final String myUrl = "http://18.220.189.219/image";
    // private RequestQueue requestQueue;
     private Context context;
     private DefaultHttpClient mHttpClient;
@@ -168,6 +170,35 @@ public class Endpoints {
 //    //        );
 //    //
 //    //        requestQueue.add(postReq);
+
+    public static void get() {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://18.220.189.219/")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                } else {
+                    // do something wih the result
+                    System.out.println(response.body().string());
+                    System.out.println("We did it");
+                }
+            }
+        });
+    }
+
+
     public JSONObject postFile(ImageBundle image, int imageNumber) {
 
         if (android.os.Build.VERSION.SDK_INT > 9)
@@ -182,21 +213,38 @@ public class Endpoints {
 
         try {
 
-            final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+            final MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
+            File f = new File(myPath);
 
-            RequestBody req = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("userid", "8457851245")
-                    .addFormDataPart("userfile","profile.png", RequestBody.create(MEDIA_TYPE_PNG, myPath)).build();
+            RequestBody req = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("image","1114181904a.jpg", RequestBody.create(MEDIA_TYPE_JPEG, f))
+                    .addFormDataPart("time_taken", "4-4-1321").build();
 
             Request request = new Request.Builder().url(myUrl).post(req).build();
 
             OkHttpClient client = new OkHttpClient();
-            Response response = client.newCall(request).execute();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
 
-            Log.d("response", "uploadImage:"+response.body().string());
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    } else {
+                        // do something wih the result
+                        System.out.println(response.body().string());
+                        System.out.println("We did it");
+                    }
+                }
+            });
 
-            return new JSONObject(response.body().string());
+            //Log.d("response", "uploadImage:"+response.body().string());
 
-        } catch (UnknownHostException | UnsupportedEncodingException e) {
+           // return new JSONObject(response.body().string());
+
+       // } catch (UnknownHostException | UnsupportedEncodingException e) {
             //Log.e(Tag, "Error: " + e.getLocalizedMessage());
         } catch (Exception e) {
             e.printStackTrace();
