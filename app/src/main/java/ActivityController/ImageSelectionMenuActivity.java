@@ -33,7 +33,7 @@ import test.hulbert.seefood.R;
 
 public class ImageSelectionMenuActivity extends AppCompatActivity implements Controllable {
 
-    private ImageBundle myImageBundle;
+    private ImageBundle myImageBundle = new ImageBundle();
     private Uri outPutfileUri;
     private Bitmap mBitmap;
     @Override
@@ -63,7 +63,8 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
     }
 
     public void selectImage(View view) {
-
+        Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 2);
     }
 
     public void reviewImages(View view) {
@@ -80,11 +81,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
-
             String uri = outPutfileUri.toString();
-            Log.e("uri-:", uri);
-            Toast.makeText(this, outPutfileUri.toString(), Toast.LENGTH_LONG).show();
-
             try {
                 mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outPutfileUri);
                 Image newImage = new Image();
@@ -110,6 +107,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
             Image newImage = new Image();
+
             newImage.setBitmap(bitmap);
             newImage.setsFilePath(imagePath);
             //we can parse this file name to get the date and time it was taken. may need to rotate image??
