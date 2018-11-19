@@ -1,6 +1,8 @@
 package ActivityController;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -36,6 +40,13 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
         //
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         BaseView menuView = new MenuView(view);
+
+        int MY_CAMERA_REQUEST_CODE = 100;
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    MY_CAMERA_REQUEST_CODE);
+        }
     }
 
     public void TakePhoto(View view) {

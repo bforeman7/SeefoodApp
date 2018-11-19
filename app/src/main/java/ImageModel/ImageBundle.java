@@ -12,12 +12,15 @@ import java.util.Collection;
 
 public class ImageBundle {
     private ArrayList<Image> images = new ArrayList<>();
-    private String sBitmapPath;
     //private Controllable controller
 
     public Image getImageByID(int nIDnumber){
 
         return images.get(nIDnumber);
+    }
+
+    public void addImage(Image image) {
+        images.add(image);
     }
 
 
@@ -33,7 +36,13 @@ public class ImageBundle {
         images.remove(nPosition);
     }
 
-    public String getsBitmapPath() {
-        return sBitmapPath;
+    public ArrayList<String> getImagePathsToString() {
+        ArrayList<String> URIs = new ArrayList<String>();
+        for(int i = 0; i < images.size(); i++)
+        {
+            URIs.add(images.get(i).getsFilePath());
+        }
+        return URIs;
     }
+
 }

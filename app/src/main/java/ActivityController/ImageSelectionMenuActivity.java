@@ -44,6 +44,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         //
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         BaseView imageSelectionView = new ImageSelectionMenuView(view);
+        myImageBundle = new ImageBundle();
     }
 
     public void takePicture(View view) {
@@ -67,6 +68,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
     public void reviewImages(View view) {
         Intent intent = new Intent(this, ImageUploadActivity.class);
+        intent.putStringArrayListExtra("imagePaths", myImageBundle.getImagePathsToString());
         startActivity(intent);
     }
 

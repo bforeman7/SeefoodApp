@@ -6,7 +6,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import ActivityController.Controllable;
 import ImageModel.Image;
+import ImageModel.ImageBundle;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import test.hulbert.seefood.R;
 
@@ -17,8 +24,12 @@ public class SeefoodView implements ImageBundleView {
     private MaterialRatingBar ratingBar;
     private TextView tvRating;
     private ImageView imageView;
+    private int index = 0;
+    private Controllable controller;
+    private ArrayList<String> imagePaths;
 
-    public SeefoodView(View view) {
+    public SeefoodView(Controllable controller, View view) {
+        this.controller = controller;
         this.rootView = view;
         init();
 
@@ -26,7 +37,10 @@ public class SeefoodView implements ImageBundleView {
         bLeftImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(index - 1 >= 0 ) {
+                    index--;
+                    displayImage();
+                }
             }
         });
 
@@ -34,7 +48,10 @@ public class SeefoodView implements ImageBundleView {
         bRightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(index+1 < imagePaths.size()) {
+                    index++;
+                    displayImage();
+                }
             }
         });
     }
@@ -48,17 +65,34 @@ public class SeefoodView implements ImageBundleView {
         tvRating = rootView.findViewById(R.id.seefood_tvFoodRating);
     }
 
+    private void displayImage() {
+        Picasso.get().load(new File(imagePaths.get(index))).into(imageView);
+    }
+
+    public void updateConfidenceRating(String confidence) {
+        tvRating.setText(confidence);
+    }
+
     @Override
     public View getRootView() {
         return rootView;
     }
 
-    @Override
-    public void bindImageBundle(Image Bundle) {
+
+    public  void displayConfidenceRating(int nRating){
 
     }
 
-    public  void displayConfidenceRating(int nRating){
+    public void bindImages(ArrayList<String> imagePaths) {
+        if(!imagePaths.isEmpty()) {
+            this.imagePaths = imagePaths;
+            index = 0;
+            displayImage();
+        }
+    }
+
+    @Override
+    public void bindImageBundle(ImageBundle bundle) {
 
     }
 }

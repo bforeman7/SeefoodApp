@@ -3,6 +3,7 @@ package CustomViews;
 import android.view.View;
 
 import ImageModel.Image;
+import ImageModel.ImageBundle;
 
 public class GalleryView implements ImageBundleView {
 
@@ -20,7 +21,7 @@ public class GalleryView implements ImageBundleView {
     }
 
     @Override
-    public void bindImageBundle(Image Bundle) {
+    public void bindImageBundle(ImageBundle bundle) {
 
     }
 }

@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
 import ImageModel.ImageBundle;
@@ -25,9 +27,8 @@ import okhttp3.Response;
 
 public class Endpoints {
     private Endpoints instance = new Endpoints();
-    private static final String myUrl = "http://0.0.0.0:5000/image";
     private Context context;
-    private static ImageBundle imageBundle;
+    private ImageBundle imageBundle;
     private static String myPath = "";
     private static String url = "http://18.220.189.219/";
     private static JSONObject json;
@@ -35,7 +36,6 @@ public class Endpoints {
 
     private Endpoints() {
     }
-
 
 
     public static JSONObject getImages(int start, int end) {
@@ -49,27 +49,27 @@ public class Endpoints {
         // this is here to await the end of the call so that way we don't do anything until request comes back
         // async call because sync call causes exception
         client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                    countDownLatch.countDown();
-                }
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                countDownLatch.countDown();
+            }
 
-                @Override
-                public void onResponse(Call call, final Response response) throws IOException {
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    } else {
-                        // do something wih the result
-                        try {
-                            json = new JSONObject(response.body().string());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                } else {
+                    // do something wih the result
+                    try {
+                        json = new JSONObject(response.body().string());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    countDownLatch.countDown();
                 }
-            });
+                countDownLatch.countDown();
+            }
+        });
 
         try {
             countDownLatch.await();
@@ -80,26 +80,30 @@ public class Endpoints {
         return json;
 
     }
-    public static JSONObject postFile(ImageBundle image, int imageNumber) {
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+    public static JSONObject postFile(String imagePath) {
 
-        imageBundle = image;
-        //this will get the specific image numbers path.
-        myPath = imageBundle.getImages().get(imageNumber).getsFilePath();
+            final MediaType MEDIA_TYPE;
 
-        try {
+            if (imagePath.contains(".jpeg") || imagePath.contains(".jpg")){
+                MEDIA_TYPE = MediaType.parse("image/jpeg");
+            } else if (imagePath.contains(".png")) {
+                MEDIA_TYPE = MediaType.parse("image/png");
+            } else {
+                Log.d("Endpoints", "Unsupported image format for image " + imagePath);
+                return null;
+            }
 
-            final MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
-            File f = new File(myPath);
+            File f = new File(imagePath);
 
-            RequestBody req = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("image", "1114181904a.jpg", RequestBody.create(MEDIA_TYPE_JPEG, f))
-                    .addFormDataPart("time_taken", "4-4-1321").build();
+            String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
-            Request request = new Request.Builder().url(myUrl).post(req).build();
+            RequestBody req = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("image", f.getName(), RequestBody.create(MEDIA_TYPE, f))
+                    .addFormDataPart("time_taken", date).build();
+
+            Request request = new Request.Builder().url(url + "image").post(req).build();
 
             OkHttpClient client = new OkHttpClient();
             client.newCall(request).enqueue(new Callback() {
@@ -114,29 +118,23 @@ public class Endpoints {
                         throw new IOException("Unexpected code " + response);
                     } else {
                         // do something wih the result
-                        System.out.println(response.body().string());
-                        System.out.println("We did it");
+                        try {
+                            json = new JSONObject(response.body().string());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    countDownLatch.countDown();
                 }
             });
 
-            //Log.d("response", "uploadImage:"+response.body().string());
-
-            // return new JSONObject(response.body().string());
-
-            // } catch (UnknownHostException | UnsupportedEncodingException e) {
-            //Log.e(Tag, "Error: " + e.getLocalizedMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(json.toString());
+            return json;
         }
-        return null;
-    }
-//    public static ImageBundle getSpecificNumberOfImagesFromServer(int nNumber,int nNumber2){
-//
-//    }
-//
-//    public static int getPrimaryKeyForNewImageRecord(){
-//
-//    }
 
-    }
+}

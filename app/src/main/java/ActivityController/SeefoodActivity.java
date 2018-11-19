@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import Communication.Endpoints;
 import CustomViews.ImageBundleView;
 import CustomViews.MenuView;
@@ -23,17 +27,28 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
     private ScrollView myScrollView;
     private LinearLayout myLinearLayout;
     private ImageView imageView[];
+    private ArrayList<String> imagePaths;
+
+    public SeefoodActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.seefood_final);
 
-        ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        ImageBundleView menuView = new SeefoodView(view);
+        imagePaths = getIntent().getStringArrayListExtra("imagePaths");
 
-        //need to set the scrollview and linear layout to variables
-//        displaySelectedImages();
+        ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
+        ImageBundleView seefoodView = new SeefoodView(this, view);
+
+        ArrayList<JSONObject> jsonResponses = new ArrayList<>();
+
+        for(int i = 0; i < imagePaths.size(); i++) {
+            jsonResponses.add(Endpoints.postFile(imagePaths.get(i)));
+        }
+        ((SeefoodView) seefoodView).updateConfidenceRating(jsonResponses.get(0).toString());
+
     }
 
     public void returnHome(View view) {
@@ -46,7 +61,6 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
     }
 
     public void sendImagesToServer(View view){
-        Endpoints.postFile(imageBundle,0);
     }
 
     @Override
