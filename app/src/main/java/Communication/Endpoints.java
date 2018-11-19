@@ -1,6 +1,7 @@
 package Communication;
 
 import android.content.Context;
+import android.os.StrictMode;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -24,10 +25,10 @@ import okhttp3.Response;
 
 public class Endpoints {
     private Endpoints instance = new Endpoints();
-    private final String myUrl = "http://0.0.0.0:5000/image";
+    private static final String myUrl = "http://0.0.0.0:5000/image";
     private Context context;
-    private ImageBundle imageBundle;
-    private String myPath = "";
+    private static ImageBundle imageBundle;
+    private static String myPath = "";
     private static String url = "http://18.220.189.219/";
     private static JSONObject json;
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -79,55 +80,57 @@ public class Endpoints {
         return json;
 
     }
-    public JSONObject postFile(ImageBundle image, int imageNumber) {
+    public static JSONObject postFile(ImageBundle image, int imageNumber) {
 
-        if (android.os.Build.VERSION.SDK_INT > 9)
-            @@ -182,21 +213,38 @@ public class Endpoints {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+        imageBundle = image;
+        //this will get the specific image numbers path.
+        myPath = imageBundle.getImages().get(imageNumber).getsFilePath();
 
         try {
-                final MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
-                File f = new File(myPath);
 
-                RequestBody req = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("userid", "8457851245")
-                        .addFormDataPart("userfile","profile.png", RequestBody.create(MEDIA_TYPE_PNG, myPath)).build();
-                RequestBody req = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("image","1114181904a.jpg", RequestBody.create(MEDIA_TYPE_JPEG, f))
-                        .addFormDataPart("time_taken", "4-4-1321").build();
+            final MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
+            File f = new File(myPath);
 
-                Request request = new Request.Builder().url(myUrl).post(req).build();
+            RequestBody req = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("image", "1114181904a.jpg", RequestBody.create(MEDIA_TYPE_JPEG, f))
+                    .addFormDataPart("time_taken", "4-4-1321").build();
 
-                OkHttpClient client = new OkHttpClient();
-                Response response = client.newCall(request).execute();
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
+            Request request = new Request.Builder().url(myUrl).post(req).build();
+
+            OkHttpClient client = new OkHttpClient();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    } else {
+                        // do something wih the result
+                        System.out.println(response.body().string());
+                        System.out.println("We did it");
                     }
+                }
+            });
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        if (!response.isSuccessful()) {
-                            throw new IOException("Unexpected code " + response);
-                        } else {
-                            // do something wih the result
-                            System.out.println(response.body().string());
-                            System.out.println("We did it");
-                        }
-                    }
-                });
+            //Log.d("response", "uploadImage:"+response.body().string());
 
-                Log.d("response", "uploadImage:"+response.body().string());
-                //Log.d("response", "uploadImage:"+response.body().string());
+            // return new JSONObject(response.body().string());
 
-                return new JSONObject(response.body().string());
-                // return new JSONObject(response.body().string());
-
-            } catch (UnknownHostException | UnsupportedEncodingException e) {
-                // } catch (UnknownHostException | UnsupportedEncodingException e) {
-                //Log.e(Tag, "Error: " + e.getLocalizedMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-
-
+            // } catch (UnknownHostException | UnsupportedEncodingException e) {
+            //Log.e(Tag, "Error: " + e.getLocalizedMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 //    public static ImageBundle getSpecificNumberOfImagesFromServer(int nNumber,int nNumber2){
 //
 //    }

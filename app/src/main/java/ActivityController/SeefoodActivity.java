@@ -46,7 +46,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
     }
 
     public void sendImagesToServer(View view){
-        Endpoints server = new Endpoints();
+        Endpoints.postFile(imageBundle,0);
     }
 
     @Override
