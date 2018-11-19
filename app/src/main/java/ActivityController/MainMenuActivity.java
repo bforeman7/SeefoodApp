@@ -19,9 +19,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,6 +44,11 @@ import in.mayanknagwanshi.imagepicker.imageCompression.ImageCompressionListener;
 import in.mayanknagwanshi.imagepicker.imagePicker.ImagePicker;
 import test.hulbert.seefood.BuildConfig;
 import test.hulbert.seefood.R;
+
+/*
+This class is now deprecated and only here for testing purposes. MenuActivity is its replacement.
+ */
+
 
 public class MainMenuActivity extends AppCompatActivity implements Controllable{
 
@@ -67,7 +75,6 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
         Permissions();
         iImageView = findViewById(R.id.imageView);
         imageBundle = new ImageBundle();
-        menuView = new MenuView(this);
     }
 
     public void gotoGallery(View view){
@@ -79,16 +86,11 @@ public class MainMenuActivity extends AppCompatActivity implements Controllable{
     }
 
     public void postImage(View view){
-        Endpoints endpoints = new Endpoints(this);
-        endpoints.postFile(imageBundle,0);
-    }
 
-    public void takePhotoButtonAction(View view){
-        //menuView.;
-    }
-
-    public void uploadPhotoButtonAction(){
-        menuView.uploadPictureButton();
+//        if(imageBundle.getImages().size() != 0) {
+//            Endpoints.postImage(imageBundle.getImageByID(0).getsFilePath());
+//        }
+        JSONObject json = Endpoints.getImages(1, 3);
     }
 
     @Override

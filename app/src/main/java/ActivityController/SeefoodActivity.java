@@ -3,10 +3,13 @@ package ActivityController;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import CustomViews.ImageBundleView;
+import CustomViews.MenuView;
 import CustomViews.SeefoodView;
 import ImageModel.Image;
 import ImageModel.ImageBundle;
@@ -23,10 +26,17 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seefood);
+        setContentView(R.layout.seefood_final);
+
+        ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
+        ImageBundleView menuView = new SeefoodView(view);
 
         //need to set the scrollview and linear layout to variables
-        displaySelectedImages();
+//        displaySelectedImages();
+    }
+
+    public void returnHome(View view) {
+
     }
 
     /**
@@ -34,15 +44,15 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
      * in an imagebundle.  That way the user can load specific number of
      * images to the view at a time.
      * */
-    private void displaySelectedImages(){
-        for (int i = 0; i < imageBundle.getImages().size(); i++){
-            imageView[i] = new ImageView(this);
-        }
-        for (int i = 0; i < imageBundle.getImages().size(); i++){
-            myLinearLayout.addView(imageView[i],i);
-            imageView[i].setImageBitmap(imageBundle.getImageByID(i).getBitmap());
-        }
-    }
+//    private void displaySelectedImages(){
+//        for (int i = 0; i < imageBundle.getImages().size(); i++){
+//            imageView[i] = new ImageView(this);
+//        }
+//        for (int i = 0; i < imageBundle.getImages().size(); i++){
+//            myLinearLayout.addView(imageView[i],i);
+//            imageView[i].setImageBitmap(imageBundle.getImageByID(i).getBitmap());
+//        }
+//    }
 
     public void updateConfidenceRating(int nRatingIncrease){
 

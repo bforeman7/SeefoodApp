@@ -2,24 +2,21 @@ package CustomViews;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import ImageModel.Image;
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import test.hulbert.seefood.R;
 
-public class SeefoodView implements ImageBundleView {
+public class ImageUploadView implements BaseView {
 
     private View rootView;
-    private FloatingActionButton bHome, bLeftImg, bRightImg;
-    private MaterialRatingBar ratingBar;
-    private TextView tvRating;
+    private Button bLeftImg, bRightImg, bUploadImages;
+    private FloatingActionButton bDeleteImg, bBack;
     private ImageView imageView;
 
-    public SeefoodView(View view) {
-        this.rootView = view;
+    public ImageUploadView(ViewGroup container) {
+        this.rootView = container;
         init();
 
         // move one image to the left in the array
@@ -37,28 +34,21 @@ public class SeefoodView implements ImageBundleView {
 
             }
         });
+
+
     }
 
     public void init(){
-        bLeftImg = rootView.findViewById(R.id.seefood_bViewLeftImg);
+        bLeftImg = rootView.findViewById(R.id.upload_bViewLeftImg);
+        bBack = rootView.findViewById(R.id.seefood_bHome);
+        bDeleteImg = rootView.findViewById(R.id.upload_bDeleteImg);
         bRightImg = rootView.findViewById(R.id.seefood_bViewRightImg);
-        bHome = rootView.findViewById(R.id.seefood_bHome);
-        ratingBar = rootView.findViewById(R.id.seefood_ratingBar);
-        imageView = rootView.findViewById(R.id.seefood_imageView);
-        tvRating = rootView.findViewById(R.id.seefood_tvFoodRating);
+        bUploadImages = rootView.findViewById(R.id.upload_bUploadImages);
+        imageView = rootView.findViewById(R.id.upload_imageView);
     }
 
     @Override
     public View getRootView() {
         return rootView;
-    }
-
-    @Override
-    public void bindImageBundle(Image Bundle) {
-
-    }
-
-    public  void displayConfidenceRating(int nRating){
-
     }
 }
