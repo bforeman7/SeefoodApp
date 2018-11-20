@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,8 +38,11 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
 
         JSONObject jsonResponses = new JSONObject();
         jsonResponses = (Endpoints.getImages(1, 1000));
-        ((GalleryView) galleryView).updateConfidenceRating(jsonResponses.toString());
-        jsonResponses.get("")
+        try {
+            ((GalleryView) galleryView).bindImages(jsonResponses.getJSONArray("images"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 

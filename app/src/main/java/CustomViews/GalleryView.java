@@ -7,6 +7,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -21,11 +25,11 @@ public class GalleryView implements ImageBundleView {
     private View rootView;
     private FloatingActionButton bHome, bLeftImg, bRightImg;
     private MaterialRatingBar ratingBar;
-    private TextView tvRating;
+    private TextView tvRating, tvName, tvUploaded;
     private ImageView imageView;
     private int index = 0;
     private Controllable controller;
-    private ArrayList<String> imagePaths;
+    private JSONArray jsonObjects;
 
     public GalleryView(Controllable controller, View view) {
         this.controller = controller;
@@ -47,7 +51,7 @@ public class GalleryView implements ImageBundleView {
         bRightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(index+1 < imagePaths.size()) {
+                if(index+1 < jsonObjects.length()) {
                     index++;
                     displayImage();
                 }
@@ -62,10 +66,22 @@ public class GalleryView implements ImageBundleView {
         ratingBar = rootView.findViewById(R.id.gallery_ratingBar);
         imageView = rootView.findViewById(R.id.gallery_imageView);
         tvRating = rootView.findViewById(R.id.gallery_tvFoodRating);
+        tvName = rootView.findViewById(R.id.gallery_tvName);
+        tvUploaded = rootView.findViewById(R.id.gallery_tvUploadTime);
     }
 
     private void displayImage() {
-        Picasso.get().load(new File(imagePaths.get(index))).into(imageView);
+        try {
+            JSONObject object = jsonObjects.getJSONObject(index);
+            Picasso.get().load("http://18.220.189.219/" + object.getString("image_path")).into(imageView);
+            tvRating.setText(object.getString("first_class_confidence") +  " " + object.getString("second_class_confidence"));
+            String[] path = object.getString("image_path").split("/");
+            tvName.setText(path[1]);
+            tvUploaded.setText(object.getString("date_taken"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateConfidenceRating(String confidence) {
@@ -82,9 +98,9 @@ public class GalleryView implements ImageBundleView {
 
     }
 
-    public void bindImages(ArrayList<String> imagePaths) {
-        if(!imagePaths.isEmpty()) {
-            this.imagePaths = imagePaths;
+    public void bindImages(JSONArray jsonObjects) {
+        if(jsonObjects.length() > 0) {
+            this.jsonObjects = jsonObjects;
             index = 0;
             displayImage();
         }
