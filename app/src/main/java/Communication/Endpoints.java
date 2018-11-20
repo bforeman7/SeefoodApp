@@ -96,7 +96,7 @@ public class Endpoints {
 
             File f = new File(imagePath);
 
-            String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+            String date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
 
             RequestBody req = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
@@ -115,7 +115,7 @@ public class Endpoints {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
+                        throw new IOException("Unexpected code " + response + " " + response.body().string());
                     } else {
                         // do something wih the result
                         try {
