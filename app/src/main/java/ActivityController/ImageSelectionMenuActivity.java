@@ -31,6 +31,8 @@ import ImageModel.ImageBundle;
 import test.hulbert.seefood.BuildConfig;
 import test.hulbert.seefood.R;
 
+import static android.os.Environment.getExternalStoragePublicDirectory;
+
 public class ImageSelectionMenuActivity extends AppCompatActivity implements Controllable {
 
     private ImageBundle myImageBundle = new ImageBundle();
@@ -51,8 +53,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMddyyHHmm");
         String myDate = simpleDateFormat.format(Calendar.getInstance().getTime());
-        File file = new File(Environment.
-                getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+        File file = new File(getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 myDate + ".jpg");
 
         outPutfileUri = FileProvider.getUriForFile(this,BuildConfig.APPLICATION_ID + ".provider",file);
@@ -60,6 +61,10 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
         startActivityForResult(intent, 1);
+
+        Image newImage = new Image();
+        newImage.setsFilePath(file.getPath());
+        myImageBundle.getImages().add(newImage);
     }
 
     public void selectImage(View view) {
@@ -84,10 +89,6 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
             String uri = outPutfileUri.toString();
             try {
                 mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outPutfileUri);
-                Image newImage = new Image();
-                newImage.setBitmap(mBitmap);
-                newImage.setsFilePath(uri);
-                myImageBundle.getImages().add(newImage);
                 //Drawable draw = new BitmapDrawable(getResources(), mBitmap);
 
             } catch (IOException e) {

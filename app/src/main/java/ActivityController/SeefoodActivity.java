@@ -54,8 +54,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
     public void returnHome(View view) {
 
     }
-
-
+    
     public void updateConfidenceRating(int nRatingIncrease){
 
     }
