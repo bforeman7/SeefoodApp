@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -42,12 +44,12 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         ImageBundleView seefoodView = new SeefoodView(this, view);
 
-        ArrayList<JSONObject> jsonResponses = new ArrayList<>();
+        ArrayList<JSONObject> jsonResponses = new ArrayList<JSONObject>();
 
         for(int i = 0; i < imagePaths.size(); i++) {
             jsonResponses.add(Endpoints.postFile(imagePaths.get(i)));
         }
-        ((SeefoodView) seefoodView).updateConfidenceRating(jsonResponses.get(0).toString());
+        ((SeefoodView) seefoodView).bindImages(imagePaths, jsonResponses);
 
     }
 

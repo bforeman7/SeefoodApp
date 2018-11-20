@@ -74,7 +74,7 @@ public class GalleryView implements ImageBundleView {
         try {
             JSONObject object = jsonObjects.getJSONObject(index);
             Picasso.get().load("http://18.220.189.219/" + object.getString("image_path")).into(imageView);
-            tvRating.setText(object.getString("first_class_confidence") +  " " + object.getString("second_class_confidence"));
+            tvRating.setText(object.getString("first_class_confidence") +  ", " + object.getString("second_class_confidence"));
             String[] path = object.getString("image_path").split("/");
             tvName.setText(path[1]);
             tvUploaded.setText(object.getString("date_taken"));

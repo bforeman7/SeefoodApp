@@ -19,7 +19,7 @@ public class ImageUploadView implements BaseView {
 
     private View rootView;
     private Button bUploadImages;
-    private FloatingActionButton bDeleteImg, bBack, bLeftImg, bRightImg;
+    private FloatingActionButton bDeleteImg, bLeftImg, bRightImg;
     private ImageView imageView;
     private ArrayList<String> imagePaths;
     private Controllable controller;
@@ -70,9 +70,8 @@ public class ImageUploadView implements BaseView {
 
     public void init(){
         bLeftImg = rootView.findViewById(R.id.upload_bViewLeftImg);
-        bBack = rootView.findViewById(R.id.gallery_bHome);
         bDeleteImg = rootView.findViewById(R.id.upload_bDeleteImg);
-        bRightImg = rootView.findViewById(R.id.gallery_bViewRightImg);
+        bRightImg = rootView.findViewById(R.id.upload_bViewRightImg);
         bUploadImages = rootView.findViewById(R.id.upload_bUploadImages);
         imageView = rootView.findViewById(R.id.upload_imageView);
     }
