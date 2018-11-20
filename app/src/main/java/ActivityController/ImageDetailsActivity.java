@@ -1,7 +1,11 @@
 package ActivityController;
 
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import java.io.File;
+import java.io.InputStream;
 
 import CustomViews.ImageDetailsView;
 import ImageModel.Image;
@@ -23,7 +27,12 @@ public class ImageDetailsActivity extends AppCompatActivity implements Controlla
 
     }
 
-    public void dispalyImageDetails(Image image){
+    public void obtainImageDetails(File myFile){
 
     }
+
+    public void displayImageDetails(Image image){
+
+    }
+
 }

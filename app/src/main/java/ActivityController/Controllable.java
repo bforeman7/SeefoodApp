@@ -1,6 +1,6 @@
 package ActivityController;
 
-interface Controllable {
+public interface Controllable {
 
     void updateView();
 }

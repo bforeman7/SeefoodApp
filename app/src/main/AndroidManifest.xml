@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="test.hulbert.seefood">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ActivityController.MainMenuActivity">
+        <activity android:name="ActivityController.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,10 +22,16 @@
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/file_paths"/>
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
         </provider>
+        <activity android:name="ActivityController.ImageSelectionMenuActivity"></activity>
+        <activity android:name="ActivityController.ImageUploadActivity"></activity>
+        <activity android:name="ActivityController.SeefoodActivity"></activity>
+        <activity android:name="ActivityController.PhotoGalleryActivity"></activity>
+        <activity android:name="ActivityController.ImageDetailsActivity"></activity>
+        <activity android:name="ActivityController.GalleryActivity"></activity>
     </application>
 
 </manifest>

@@ -6,7 +6,48 @@ import java.util.Date;
 
 public class Image {
     private Bitmap bitmap;
-    private Date dateTaken;
+    private String dateTaken;
     private String sName;
     private int nConfidenceRating;
+    private String sFilePath;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public String getDateTaken() {
+        return dateTaken;
+    }
+
+    public int getnConfidenceRating() {
+        return nConfidenceRating;
+    }
+
+    public String getsName() {
+        return sName;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public void setDateTaken(String dateTaken) {
+        this.dateTaken = dateTaken;
+    }
+
+    public void setnConfidenceRating(int nConfidenceRating) {
+        this.nConfidenceRating = nConfidenceRating;
+    }
+
+    public void setsName(String sName) {
+        this.sName = sName;
+    }
+
+    public String getsFilePath() {
+        return sFilePath;
+    }
+
+    public void setsFilePath(String sFilePath) {
+        this.sFilePath = sFilePath;
+    }
 }

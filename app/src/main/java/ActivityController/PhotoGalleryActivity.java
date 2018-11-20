@@ -18,9 +18,9 @@ public class PhotoGalleryActivity extends AppCompatActivity implements Controlla
         setContentView(R.layout.main_menu);
     }
 
-    public void displayGallery(){
-
-    }
+//    public void displayGallery(ImagePicker imagePicker){
+//
+//    }
 
     public void getSpecificNumberOfImagesFromServer(int nNumber1, int nNumber2){
 

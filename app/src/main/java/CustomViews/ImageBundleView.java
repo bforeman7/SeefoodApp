@@ -1,8 +1,9 @@
 package CustomViews;
 
 import ImageModel.Image;
+import ImageModel.ImageBundle;
 
-interface ImageBundleView extends BaseView {
+public interface ImageBundleView extends BaseView {
 
-    void bindImageBundle(Image Bundle);
+    void bindImageBundle(ImageBundle bundle);
 }
