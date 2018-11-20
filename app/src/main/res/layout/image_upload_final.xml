@@ -81,13 +81,13 @@
             android:src="@drawable/baseline_navigate_before_black_18dp"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/seefood_bHome"
+            app:layout_constraintEnd_toStartOf="@+id/gallery_bHome"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/seefood_bHome"
+            android:id="@+id/gallery_bHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -115,13 +115,13 @@
             android:src="@drawable/baseline_delete_black_18dp"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/seefood_bViewRightImg"
+            app:layout_constraintEnd_toStartOf="@+id/gallery_bViewRightImg"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/seefood_bHome"
+            app:layout_constraintStart_toEndOf="@+id/gallery_bHome"
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/seefood_bViewRightImg"
+            android:id="@+id/gallery_bViewRightImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

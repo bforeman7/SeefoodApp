@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 import ActivityController.Controllable;
 import ActivityController.ImageUploadActivity;
-import ImageModel.Image;
-import ImageModel.ImageBundle;
 import test.hulbert.seefood.R;
 
 public class ImageUploadView implements BaseView {
@@ -72,9 +70,9 @@ public class ImageUploadView implements BaseView {
 
     public void init(){
         bLeftImg = rootView.findViewById(R.id.upload_bViewLeftImg);
-        bBack = rootView.findViewById(R.id.seefood_bHome);
+        bBack = rootView.findViewById(R.id.gallery_bHome);
         bDeleteImg = rootView.findViewById(R.id.upload_bDeleteImg);
-        bRightImg = rootView.findViewById(R.id.seefood_bViewRightImg);
+        bRightImg = rootView.findViewById(R.id.gallery_bViewRightImg);
         bUploadImages = rootView.findViewById(R.id.upload_bUploadImages);
         imageView = rootView.findViewById(R.id.upload_imageView);
     }

@@ -55,7 +55,8 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
     }
 
     public void gotoGallery(View view) {
-
+        Intent intent = new Intent(this, GalleryActivity.class);
+        startActivity(intent);
     }
 
     @Override

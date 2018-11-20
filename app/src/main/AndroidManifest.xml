@@ -31,6 +31,7 @@
         <activity android:name="ActivityController.SeefoodActivity"></activity>
         <activity android:name="ActivityController.PhotoGalleryActivity"></activity>
         <activity android:name="ActivityController.ImageDetailsActivity"></activity>
+        <activity android:name="ActivityController.GalleryActivity"></activity>
     </application>
 
 </manifest>

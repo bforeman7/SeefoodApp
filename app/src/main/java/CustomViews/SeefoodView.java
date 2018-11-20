@@ -2,7 +2,6 @@ package CustomViews;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import ActivityController.Controllable;
-import ImageModel.Image;
 import ImageModel.ImageBundle;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import test.hulbert.seefood.R;
