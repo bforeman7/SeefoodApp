@@ -37,7 +37,7 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
         ImageBundleView galleryView = new GalleryView(this, view);
 
         JSONObject jsonResponses = new JSONObject();
-        jsonResponses = (Endpoints.getImages(1, 1000));
+        jsonResponses = Endpoints.getImages(1, 1000);
         try {
             ((GalleryView) galleryView).bindImages(jsonResponses.getJSONArray("images"));
         } catch (JSONException e) {

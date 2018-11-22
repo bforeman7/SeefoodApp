@@ -42,10 +42,6 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         }
     }
 
-    public void goBack(View view) {
-
-    }
-
     public void deleteImage(int index) {
         imagePaths.remove(index);
         updateView();
@@ -54,5 +50,21 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
     @Override
     public void updateView() {
         ((ImageUploadView) imageUploadView).bindImages(imagePaths);
+    }
+
+    /* This is the finish() method which is called when the user wants to exit the current activity i.e. clicked the back button. */
+    @Override
+    public void finish() {
+        // Since this intent is now finished, we need to send the color selection choices back to the parent intent
+        Intent data = new Intent();
+        data.putStringArrayListExtra("imagePaths", imagePaths);
+        setResult(RESULT_OK, data);
+        super.finish();
+    }
+
+    /* This is the method that is called when the hardware back button is pressed. */
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

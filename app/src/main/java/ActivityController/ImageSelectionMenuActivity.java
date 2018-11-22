@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -38,6 +39,9 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
     private ImageBundle myImageBundle = new ImageBundle();
     private Uri outPutfileUri;
     private Bitmap mBitmap;
+    private ArrayList<String> imagePaths;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +50,8 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         //
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         BaseView imageSelectionView = new ImageSelectionMenuView(view);
-        myImageBundle = new ImageBundle();
+//        myImageBundle = new ImageBundle();
+        imagePaths = new ArrayList<>();
     }
 
     public void takePicture(View view) {
@@ -61,10 +66,10 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
         startActivityForResult(intent, 1);
-
-        Image newImage = new Image();
-        newImage.setsFilePath(file.getPath());
-        myImageBundle.getImages().add(newImage);
+        imagePaths.add(file.getPath());
+//        Image newImage = new Image();
+//        newImage.setsFilePath(file.getPath());
+//        myImageBundle.getImages().add(newImage);
     }
 
     public void selectImage(View view) {
@@ -74,8 +79,8 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
     public void reviewImages(View view) {
         Intent intent = new Intent(this, ImageUploadActivity.class);
-        intent.putStringArrayListExtra("imagePaths", myImageBundle.getImagePathsToString());
-        startActivity(intent);
+        intent.putStringArrayListExtra("imagePaths", imagePaths);
+        startActivityForResult(intent, 3);
     }
 
     @Override
@@ -107,12 +112,21 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
-            Image newImage = new Image();
 
-            newImage.setBitmap(bitmap);
-            newImage.setsFilePath(imagePath);
-            //we can parse this file name to get the date and time it was taken. may need to rotate image??
-            myImageBundle.getImages().add(newImage);
+            imagePaths.add(imagePath);
+//            Image newImage = new Image();
+//
+//            newImage.setBitmap(bitmap);
+//            newImage.setsFilePath(imagePath);
+//            //we can parse this file name to get the date and time it was taken. may need to rotate image??
+//            myImageBundle.getImages().add(newImage);
+        }
+        // user backed out of reviewing and uploading their images, so we need to get the updated list in case an image was deleted
+        else if(requestCode == 3 && resultCode == RESULT_OK) {
+            if(data.hasExtra("imagePaths")) {
+                imagePaths = data.getStringArrayListExtra("imagePaths");
+            }
         }
     }
+
 }
