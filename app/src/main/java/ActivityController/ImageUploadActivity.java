@@ -1,13 +1,19 @@
 package ActivityController;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Communication.Endpoints;
@@ -38,7 +44,7 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         if(!imagePaths.isEmpty()) {
             Intent intent = new Intent(this, SeefoodActivity.class);
             intent.putStringArrayListExtra("imagePaths", imagePaths);
-            startActivity(intent);
+            startActivityForResult(intent, 999);
         }
     }
 
@@ -61,6 +67,7 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         setResult(RESULT_OK, data);
         super.finish();
     }
+
 
     /* This is the method that is called when the hardware back button is pressed. */
     @Override

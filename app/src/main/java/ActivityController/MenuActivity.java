@@ -31,6 +31,7 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
 
     private ImageBundle myImageBundle;
     private Uri outPutfileUri;
+
     Bitmap mBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

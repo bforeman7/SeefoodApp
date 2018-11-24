@@ -68,7 +68,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         startActivityForResult(intent, 1);
         imagePaths.add(file.getPath());
 //        Image newImage = new Image();
-//        newImage.setsFilePath(file.getPath());
+//        newImage.setFilePath(file.getPath());
 //        myImageBundle.getImages().add(newImage);
     }
 
@@ -117,7 +117,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 //            Image newImage = new Image();
 //
 //            newImage.setBitmap(bitmap);
-//            newImage.setsFilePath(imagePath);
+//            newImage.setFilePath(imagePath);
 //            //we can parse this file name to get the date and time it was taken. may need to rotate image??
 //            myImageBundle.getImages().add(newImage);
         }

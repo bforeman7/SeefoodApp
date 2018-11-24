@@ -1,5 +1,6 @@
 package ActivityController;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,19 +37,36 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         ImageBundleView galleryView = new GalleryView(this, view);
+        imageBundle = new ImageBundle();
 
         JSONObject jsonResponses = new JSONObject();
         jsonResponses = Endpoints.getImages(1, 1000);
+        JSONArray jsonArray = null;
         try {
-            ((GalleryView) galleryView).bindImages(jsonResponses.getJSONArray("images"));
+            jsonArray = jsonResponses.getJSONArray("images");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                imageBundle.addImageThroughJSON(jsonArray.getJSONObject(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ((GalleryView) galleryView).bindImageBundle(imageBundle);
+
     }
 
-    public void returnHome(View view) {
-
+    /*
+    returns user to home screen and clears all other activates from activity stack
+     */
+    public void returnHome() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     public void updateConfidenceRating(int nRatingIncrease){

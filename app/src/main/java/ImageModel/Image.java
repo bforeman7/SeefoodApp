@@ -2,14 +2,16 @@ package ImageModel;
 
 import android.graphics.Bitmap;
 
-import java.util.Date;
-
 public class Image {
     private Bitmap bitmap;
     private String dateTaken;
     private String sName;
-    private int nConfidenceRating;
+    private double firstClassConfidenceRating;
+    private double secondClassConfidenceRating;
     private String sFilePath;
+    private int id;
+    private boolean urlPathBool;
+
 
     public Bitmap getBitmap() {
         return bitmap;
@@ -19,12 +21,24 @@ public class Image {
         return dateTaken;
     }
 
-    public int getnConfidenceRating() {
-        return nConfidenceRating;
+    public double getFirstClassConfidenceRating() {
+        return firstClassConfidenceRating;
     }
 
-    public String getsName() {
+    public double getSecondtClassConfidenceRating() {
+        return secondClassConfidenceRating;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public String getName() {
         return sName;
+    }
+
+    public boolean hasURLPath() {
+        return urlPathBool;
     }
 
     public void setBitmap(Bitmap bitmap) {
@@ -35,11 +49,16 @@ public class Image {
         this.dateTaken = dateTaken;
     }
 
-    public void setnConfidenceRating(int nConfidenceRating) {
-        this.nConfidenceRating = nConfidenceRating;
+    public void setFirstClassConfidenceRating(double firstClassConfidenceRating) {
+        this.firstClassConfidenceRating = firstClassConfidenceRating;
     }
 
-    public void setsName(String sName) {
+    public void setSecondClassConfidenceRating(double secondClassConfidenceRating) {
+        this.secondClassConfidenceRating = secondClassConfidenceRating;
+    }
+
+
+    public void setName(String sName) {
         this.sName = sName;
     }
 
@@ -47,7 +66,15 @@ public class Image {
         return sFilePath;
     }
 
-    public void setsFilePath(String sFilePath) {
+    public void setFilePath(String sFilePath) {
         this.sFilePath = sFilePath;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUrlPathBool(boolean pathBool) {
+        this.urlPathBool = pathBool;
     }
 }

@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import ActivityController.Controllable;
+import ActivityController.GalleryActivity;
 import ImageModel.Image;
 import ImageModel.ImageBundle;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -29,9 +30,9 @@ public class GalleryView implements ImageBundleView {
     private ImageView imageView;
     private int index = 0;
     private Controllable controller;
-    private JSONArray jsonObjects;
+    private ImageBundle imageBundle;
 
-    public GalleryView(Controllable controller, View view) {
+    public GalleryView(final Controllable controller, View view) {
         this.controller = controller;
         this.rootView = view;
         init();
@@ -51,10 +52,17 @@ public class GalleryView implements ImageBundleView {
         bRightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(index+1 < jsonObjects.length()) {
+                if(index+1 < imageBundle.getImages().size()) {
                     index++;
                     displayImage();
                 }
+            }
+        });
+
+        bHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((GalleryActivity)controller).returnHome();
             }
         });
     }
@@ -71,21 +79,12 @@ public class GalleryView implements ImageBundleView {
     }
 
     private void displayImage() {
-        try {
-            JSONObject object = jsonObjects.getJSONObject(index);
-            Picasso.get().load("http://18.220.189.219/" + object.getString("image_path")).into(imageView);
-            tvRating.setText(object.getString("first_class_confidence") +  ", " + object.getString("second_class_confidence"));
-            String[] path = object.getString("image_path").split("/");
-            tvName.setText(path[1]);
-            tvUploaded.setText(object.getString("date_taken"));
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateConfidenceRating(String confidence) {
-        tvRating.setText(confidence);
+        Image image = imageBundle.getImages().get(index);
+        Picasso.get().load("http://18.220.189.219/" + image.getsFilePath()).into(imageView);
+        tvRating.setText(image.getFirstClassConfidenceRating() +  ", " + image.getSecondtClassConfidenceRating());
+        String[] path = image.getsFilePath().split("/");
+        tvName.setText(path[1]);
+        tvUploaded.setText(image.getDateTaken());
     }
 
     @Override
@@ -98,16 +97,13 @@ public class GalleryView implements ImageBundleView {
 
     }
 
-    public void bindImages(JSONArray jsonObjects) {
-        if(jsonObjects.length() > 0) {
-            this.jsonObjects = jsonObjects;
-            index = 0;
-            displayImage();
-        }
-    }
 
     @Override
     public void bindImageBundle(ImageBundle bundle) {
-
+        if(bundle.getImages().size() > 0) {
+            this.imageBundle = bundle;
+            index = 0;
+            displayImage();
+        }
     }
 }
