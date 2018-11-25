@@ -91,5 +91,8 @@ public class ImageUploadView implements BaseView {
             index = 0;
             displayImage();
         }
+        else {
+            imageView.setImageBitmap(null);
+        }
     }
 }
