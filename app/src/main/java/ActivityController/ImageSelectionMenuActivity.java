@@ -117,19 +117,14 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
+          
             if (bitmap.getWidth() > bitmap.getHeight()) {
                 Matrix matrix = new Matrix();
                 matrix.postRotate(90);
                 bitmap = Bitmap.createBitmap(bitmap , 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             }
-
+            Image newImage = new Image();
             imagePaths.add(imagePath);
-//            Image newImage = new Image();
-//
-//            newImage.setBitmap(bitmap);
-//            newImage.setFilePath(imagePath);
-//            //we can parse this file name to get the date and time it was taken. may need to rotate image??
-//            myImageBundle.getImages().add(newImage);
         }
         // user backed out of reviewing and uploading their images, so we need to get the updated list in case an image was deleted
         else if(requestCode == 3 && resultCode == RESULT_OK) {
