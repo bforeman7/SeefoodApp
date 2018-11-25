@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -95,7 +96,11 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
             try {
                 mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outPutfileUri);
                 //Drawable draw = new BitmapDrawable(getResources(), mBitmap);
-
+                if (mBitmap.getWidth() > mBitmap.getHeight()) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(90);
+                    mBitmap = Bitmap.createBitmap(mBitmap , 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -112,6 +117,11 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
+            if (bitmap.getWidth() > bitmap.getHeight()) {
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                bitmap = Bitmap.createBitmap(bitmap , 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            }
 
             imagePaths.add(imagePath);
 //            Image newImage = new Image();
