@@ -91,15 +91,14 @@ public class ImageUploadView implements BaseView {
         if(!imagePaths.isEmpty()) {
             this.imagePaths = imagePaths;
             index = 0;
+            numOfImages = imagePaths.size();
             displayImage();
         }
-<<<<<<< HEAD:app/src/main/java/CustomViews/ImageUploadView.java
         else {
             imageView.setImageBitmap(null);
+            numOfImages = 0;
         }
-=======
 
         numOfImages = imagePaths.size();
->>>>>>> 1d45334... Fixed crash on deleting images and using arrow buttons.:app/src/main/java/custom_views/ImageUploadView.java
     }
 }
