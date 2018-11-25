@@ -16,6 +16,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import ActivityController.Controllable;
+import ActivityController.GalleryActivity;
+import ActivityController.SeefoodActivity;
+import ImageModel.Image;
 import ImageModel.ImageBundle;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import test.hulbert.seefood.R;
@@ -29,10 +32,10 @@ public class SeefoodView implements ImageBundleView {
     private ImageView imageView;
     private int index = 0;
     private Controllable controller;
-    private ArrayList<String> imagePaths;
-    private ArrayList<JSONObject> jsonArray;
+    private ImageBundle imageBundle;
 
-    public SeefoodView(Controllable controller, View view) {
+
+    public SeefoodView(final Controllable controller, View view) {
         this.controller = controller;
         this.rootView = view;
         init();
@@ -52,10 +55,16 @@ public class SeefoodView implements ImageBundleView {
         bRightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(index+1 < imagePaths.size()) {
+                if(index+1 < imageBundle.getImages().size()) {
                     index++;
                     displayImage();
                 }
+            }
+        });
+        bHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((SeefoodActivity)controller).returnHome();
             }
         });
     }
@@ -71,14 +80,10 @@ public class SeefoodView implements ImageBundleView {
 
     private void displayImage() {
 
-        Picasso.get().load(new File(imagePaths.get(index))).into(imageView);
-        try {
-            JSONObject object = jsonArray.get(index).getJSONObject("image");
-            String message = object.getString("first_class_confidence") +  ", " + object.getString("second_class_confidence");
-            tvRating.setText(message);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Image image = imageBundle.getImages().get(index);
+        Picasso.get().load("http://18.220.189.219/" + image.getsFilePath()).into(imageView);
+        String message = image.getFirstClassConfidenceRating() +  ", " + image.getSecondtClassConfidenceRating();
+        tvRating.setText(message);
     }
 
     public void updateConfidenceRating(String confidence) {
@@ -95,17 +100,13 @@ public class SeefoodView implements ImageBundleView {
 
     }
 
-    public void bindImages(ArrayList<String> imagePaths, ArrayList<JSONObject> jsonArray) {
-        if(!imagePaths.isEmpty() && jsonArray.size() > 0) {
-            this.imagePaths = imagePaths;
-            this.jsonArray = jsonArray;
-            index = 0;
-            displayImage();
-        }
-    }
 
     @Override
     public void bindImageBundle(ImageBundle bundle) {
-
+        if(bundle.getImages().size() > 0) {
+            this.imageBundle = bundle;
+            index = 0;
+            displayImage();
+        }
     }
 }
