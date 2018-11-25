@@ -101,7 +101,6 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
                     matrix.postRotate(90);
                     mBitmap = Bitmap.createBitmap(mBitmap , 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
