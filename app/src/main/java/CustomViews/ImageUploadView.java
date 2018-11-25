@@ -24,6 +24,7 @@ public class ImageUploadView implements BaseView {
     private ArrayList<String> imagePaths;
     private Controllable controller;
     private int index = 0;
+    private int numOfImages;
 
     public ImageUploadView(final Controllable controller, ViewGroup container) {
         this.rootView = container;
@@ -45,7 +46,7 @@ public class ImageUploadView implements BaseView {
         bRightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(index+1 < imagePaths.size()) {
+                if(index+1 < numOfImages) {
                     index++;
                     displayImage();
                 }
@@ -55,12 +56,13 @@ public class ImageUploadView implements BaseView {
         bDeleteImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(index == 0) {
-                    ((ImageUploadActivity)controller).deleteImage(index);
-                }
-                else {
-                    ((ImageUploadActivity)controller).deleteImage(index);
-                    index = 0;
+                if(numOfImages > 0) {
+                    if (index == 0) {
+                        ((ImageUploadActivity) controller).deleteImage(index);
+                    } else {
+                        ((ImageUploadActivity) controller).deleteImage(index);
+                        index = 0;
+                    }
                 }
             }
         });
@@ -91,8 +93,13 @@ public class ImageUploadView implements BaseView {
             index = 0;
             displayImage();
         }
+<<<<<<< HEAD:app/src/main/java/CustomViews/ImageUploadView.java
         else {
             imageView.setImageBitmap(null);
         }
+=======
+
+        numOfImages = imagePaths.size();
+>>>>>>> 1d45334... Fixed crash on deleting images and using arrow buttons.:app/src/main/java/custom_views/ImageUploadView.java
     }
 }
