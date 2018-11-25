@@ -1,4 +1,4 @@
-package CustomViews;
+package custom_views;
 
 import android.view.View;
 

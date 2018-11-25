@@ -1,26 +1,15 @@
-package ActivityController;
+package activity_controller;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
-import Communication.Endpoints;
-import CustomViews.BaseView;
-import CustomViews.ImageSelectionMenuView;
-import CustomViews.ImageUploadView;
-import CustomViews.SeefoodView;
+import custom_views.BaseView;
+import custom_views.ImageUploadView;
 import test.hulbert.seefood.R;
 
 public class ImageUploadActivity extends AppCompatActivity implements Controllable {

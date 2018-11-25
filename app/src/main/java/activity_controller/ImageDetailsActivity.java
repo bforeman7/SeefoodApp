@@ -1,14 +1,12 @@
-package ActivityController;
+package activity_controller;
 
-import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import java.io.File;
-import java.io.InputStream;
 
-import CustomViews.ImageDetailsView;
-import ImageModel.Image;
+import custom_views.ImageDetailsView;
+import image_model.Image;
 import test.hulbert.seefood.R;
 
 public class ImageDetailsActivity extends AppCompatActivity implements Controllable {

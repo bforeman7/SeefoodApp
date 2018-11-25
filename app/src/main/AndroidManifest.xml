@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ActivityController.MenuActivity">
+        <activity android:name="activity_controller.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,11 +26,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-        <activity android:name="ActivityController.ImageSelectionMenuActivity"></activity>
-        <activity android:name="ActivityController.ImageUploadActivity"></activity>
-        <activity android:name="ActivityController.SeefoodActivity"></activity>
-        <activity android:name="ActivityController.ImageDetailsActivity"></activity>
-        <activity android:name="ActivityController.GalleryActivity"></activity>
+        <activity android:name="activity_controller.ImageSelectionMenuActivity"></activity>
+        <activity android:name="activity_controller.ImageUploadActivity"></activity>
+        <activity android:name="activity_controller.SeefoodActivity"></activity>
+        <activity android:name="activity_controller.ImageDetailsActivity"></activity>
+        <activity android:name="activity_controller.GalleryActivity"></activity>
     </application>
 
 </manifest>

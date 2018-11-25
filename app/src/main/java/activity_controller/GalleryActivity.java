@@ -1,4 +1,4 @@
-package ActivityController;
+package activity_controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +15,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import Communication.Endpoints;
-import CustomViews.GalleryView;
-import CustomViews.ImageBundleView;
-import CustomViews.SeefoodView;
-import ImageModel.ImageBundle;
+import communication.Endpoints;
+import custom_views.GalleryView;
+import custom_views.ImageBundleView;
+import custom_views.SeefoodView;
+import image_model.ImageBundle;
 import test.hulbert.seefood.R;
 
 public class GalleryActivity extends AppCompatActivity implements Controllable {

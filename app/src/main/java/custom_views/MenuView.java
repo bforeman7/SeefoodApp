@@ -1,9 +1,8 @@
-package CustomViews;
-import android.view.View;
+package custom_views;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+
 import test.hulbert.seefood.R;
 
 public class MenuView implements BaseView {

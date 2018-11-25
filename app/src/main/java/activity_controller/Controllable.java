@@ -1,4 +1,4 @@
-package ActivityController;
+package activity_controller;
 
 public interface Controllable {
 

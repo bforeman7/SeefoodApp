@@ -1,4 +1,4 @@
-package ImageModel;
+package image_model;
 
 import android.graphics.Bitmap;
 

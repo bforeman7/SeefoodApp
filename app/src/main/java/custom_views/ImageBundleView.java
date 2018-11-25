@@ -1,7 +1,6 @@
-package CustomViews;
+package custom_views;
 
-import ImageModel.Image;
-import ImageModel.ImageBundle;
+import image_model.ImageBundle;
 
 public interface ImageBundleView extends BaseView {
 

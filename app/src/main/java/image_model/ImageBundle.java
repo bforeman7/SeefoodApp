@@ -1,4 +1,4 @@
-package ImageModel;
+package image_model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package CustomViews;
+package custom_views;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -11,8 +11,8 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
 
-import ActivityController.Controllable;
-import ActivityController.ImageUploadActivity;
+import activity_controller.Controllable;
+import activity_controller.ImageUploadActivity;
 import test.hulbert.seefood.R;
 
 public class ImageUploadView implements BaseView {

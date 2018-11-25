@@ -93,14 +93,14 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <me.zhanghai.android.materialratingbar.MaterialRatingBar
-            android:id="@+id/gallery_ratingBar"
-            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gallery_headlineRating"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp" />
+        <!--<me.zhanghai.android.materialratingbar.MaterialRatingBar-->
+            <!--android:id="@+id/gallery_ratingBar"-->
+            <!--style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/gallery_headlineRating"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginBottom="10dp" />-->
 
         <TextView
             android:id="@+id/gallery_tvFoodRating"

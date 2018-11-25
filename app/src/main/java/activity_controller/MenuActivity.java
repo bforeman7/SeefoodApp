@@ -1,30 +1,18 @@
-package ActivityController;
+package activity_controller;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import java.io.IOException;
-
-import CustomViews.BaseView;
-import CustomViews.MenuView;
-import ImageModel.Image;
-import ImageModel.ImageBundle;
+import custom_views.BaseView;
+import custom_views.MenuView;
+import image_model.ImageBundle;
 import test.hulbert.seefood.R;
 
 public class MenuActivity extends AppCompatActivity implements Controllable {

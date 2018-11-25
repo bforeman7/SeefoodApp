@@ -1,4 +1,4 @@
-package CustomViews;
+package custom_views;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -7,25 +7,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.ArrayList;
-
-import ActivityController.Controllable;
-import ActivityController.GalleryActivity;
-import ImageModel.Image;
-import ImageModel.ImageBundle;
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+import activity_controller.Controllable;
+import activity_controller.GalleryActivity;
+import image_model.Image;
+import image_model.ImageBundle;
+//import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import test.hulbert.seefood.R;
 
 public class GalleryView implements ImageBundleView {
 
     private View rootView;
     private FloatingActionButton bHome, bLeftImg, bRightImg;
-    private MaterialRatingBar ratingBar;
+//    private MaterialRatingBar ratingBar;
     private TextView tvRating, tvName, tvUploaded;
     private ImageView imageView;
     private int index = 0;
@@ -71,7 +64,7 @@ public class GalleryView implements ImageBundleView {
         bLeftImg = rootView.findViewById(R.id.gallery_bViewLeftImg);
         bRightImg = rootView.findViewById(R.id.gallery_bViewRightImg);
         bHome = rootView.findViewById(R.id.gallery_bHome);
-        ratingBar = rootView.findViewById(R.id.gallery_ratingBar);
+//        ratingBar = rootView.findViewById(R.id.gallery_ratingBar);
         imageView = rootView.findViewById(R.id.gallery_imageView);
         tvRating = rootView.findViewById(R.id.gallery_tvFoodRating);
         tvName = rootView.findViewById(R.id.gallery_tvName);
