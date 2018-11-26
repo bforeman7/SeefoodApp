@@ -1,10 +1,12 @@
 package CustomViews;
 
+import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -25,10 +27,12 @@ public class ImageUploadView implements BaseView {
     private Controllable controller;
     private int index = 0;
     private int numOfImages;
+    private Context context;
 
-    public ImageUploadView(final Controllable controller, ViewGroup container) {
+    public ImageUploadView(final Controllable controller, final ViewGroup container, Context controllerContext) {
         this.rootView = container;
         this.controller = controller;
+        this.context = controllerContext;
         init();
 
         // move one image to the left in the array
@@ -64,6 +68,9 @@ public class ImageUploadView implements BaseView {
                         index = 0;
                     }
                 }
+                else {
+                    Toast.makeText(context, "No images left to delete", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -82,6 +89,10 @@ public class ImageUploadView implements BaseView {
         Picasso.get().load(new File(imagePaths.get(index))).into(imageView);
     }
 
+    private void displayPlaceHolder() {
+        Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
+    }
+
     @Override
     public View getRootView() {
         return rootView;
@@ -95,7 +106,7 @@ public class ImageUploadView implements BaseView {
             displayImage();
         }
         else {
-            imageView.setImageBitmap(null);
+            displayPlaceHolder();
             numOfImages = 0;
         }
 

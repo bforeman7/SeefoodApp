@@ -79,27 +79,45 @@ public class SeefoodView implements ImageBundleView {
     }
 
     private void displayImage() {
-
         Image image = imageBundle.getImages().get(index);
         Picasso.get().load("http://18.220.189.219/" + image.getsFilePath()).into(imageView);
         String message = image.getFirstClassConfidenceRating() +  ", " + image.getSecondtClassConfidenceRating();
-        tvRating.setText(message);
+        int rating = image.calculateStars();
+        tvRating.setText(getFoodDialog(rating));
+        ratingBar.setRating(image.calculateStars());
     }
 
-    public void updateConfidenceRating(String confidence) {
-        tvRating.setText(confidence);
+    private void displayPlaceHolder() {
+        Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
+    }
+
+    private String getFoodDialog(int starRating) {
+        String dialog = "";
+        if(starRating == 5) {
+            dialog = "I definitely see food!";
+        }
+        else if(starRating == 4) {
+            dialog = "I am pretty sure I see food!";
+        }
+        else if(starRating == 3) {
+            dialog = "I maybe see food!";
+        }
+        else if(starRating == 2) {
+            dialog = "I don't think I see food!";
+        }
+        else if(starRating == 1) {
+            dialog = "I am pretty sure I don't see food!";
+        }
+        else if(starRating == 0) {
+            dialog = "I definitely don't see food!";
+        }
+        return dialog;
     }
 
     @Override
     public View getRootView() {
         return rootView;
     }
-
-
-    public  void displayConfidenceRating(int nRating){
-
-    }
-
 
     @Override
     public void bindImageBundle(ImageBundle bundle) {
