@@ -92,7 +92,6 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
-
         <!--<me.zhanghai.android.materialratingbar.MaterialRatingBar-->
             <!--android:id="@+id/gallery_ratingBar"-->
             <!--style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"-->

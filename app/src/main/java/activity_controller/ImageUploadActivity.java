@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         //
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         imagePaths = getIntent().getStringArrayListExtra("imagePaths");
-        imageUploadView = new ImageUploadView(this, view);
+        imageUploadView = new ImageUploadView(this, view, this.getApplicationContext());
         ((ImageUploadView) imageUploadView).bindImages(imagePaths);
     }
 
@@ -34,6 +35,10 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
             Intent intent = new Intent(this, SeefoodActivity.class);
             intent.putStringArrayListExtra("imagePaths", imagePaths);
             startActivityForResult(intent, 999);
+        }
+        else {
+            Toast.makeText(this, "You must select images before uploading",
+                    Toast.LENGTH_LONG).show();
         }
     }
 

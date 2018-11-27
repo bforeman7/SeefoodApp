@@ -39,8 +39,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:background="@color/colorPrimaryDark"
-            android:src="@drawable/main_img"
-            android:contentDescription="TODO" />
+            android:src="@drawable/place_holder_img" />
     </FrameLayout>
 
     <Button
@@ -62,7 +61,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@color/colorPrimary"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/upload_bUploadImages"
         app:layout_constraintEnd_toEndOf="parent"
