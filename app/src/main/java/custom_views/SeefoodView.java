@@ -75,7 +75,7 @@ public class SeefoodView implements ImageBundleView {
         String message = image.getFirstClassConfidenceRating() +  ", " + image.getSecondtClassConfidenceRating();
         int rating = image.calculateStars();
         tvRating.setText(getFoodDialog(rating));
-        ratingBar.setRating(image.calculateStars());
+//        ratingBar.setRating(image.calculateStars());
     }
 
     private void displayPlaceHolder() {

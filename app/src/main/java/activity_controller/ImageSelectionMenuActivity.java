@@ -120,7 +120,6 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
                 matrix.postRotate(90);
                 bitmap = Bitmap.createBitmap(bitmap , 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             }
-            Image newImage = new Image();
             imagePaths.add(imagePath);
         }
         // user backed out of reviewing and uploading their images, so we need to get the updated list in case an image was deleted

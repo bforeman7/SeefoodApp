@@ -80,7 +80,7 @@ public class GalleryView implements ImageBundleView {
         tvUploaded.setText(image.getDateTaken());
         int rating = image.calculateStars();
         tvRating.setText(getFoodDialog(rating));
-        ratingBar.setRating(image.calculateStars());
+//        ratingBar.setRating(image.calculateStars());
     }
 
     private String getFoodDialog(int starRating) {
