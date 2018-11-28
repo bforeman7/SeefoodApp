@@ -81,7 +81,7 @@ public class Endpoints {
 
     }
 
-    public static JSONObject postFile(String imagePath) {
+    public static JSONObject postFile(String imagePath, int orientation) {
 
             final MediaType MEDIA_TYPE;
 
@@ -101,7 +101,9 @@ public class Endpoints {
             RequestBody req = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("image", f.getName(), RequestBody.create(MEDIA_TYPE, f))
-                    .addFormDataPart("time_taken", date).build();
+                    .addFormDataPart("time_taken", date)
+                    .addFormDataPart("image_orientation", Integer.toString(orientation))
+                    .build();
 
             String localURL = url + "image";
             Request request = new Request.Builder().url(localURL).post(req).build();

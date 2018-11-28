@@ -1,8 +1,10 @@
 package ActivityController;
 
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Communication.Endpoints;
@@ -43,14 +46,15 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         imagePaths = getIntent().getStringArrayListExtra("imagePaths");
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        ImageBundleView seefoodView = new SeefoodView(this, view);
+        ImageBundleView seefoodView = new SeefoodView(this, this.getApplicationContext(), view);
 
         ArrayList<JSONObject> jsonResponses = new ArrayList<JSONObject>();
         imageBundle = new ImageBundle();
 
         for(int i = 0; i < imagePaths.size(); i++) {
             try {
-                imageBundle.addImageThroughJSON(Endpoints.postFile(imagePaths.get(i)).getJSONObject("image"));
+                String imagePath = imagePaths.get(i);
+                imageBundle.addImageThroughJSON(Endpoints.postFile(imagePath, getCameraPhotoOrientation(imagePath)).getJSONObject("image"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -73,6 +77,38 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
     public void updateConfidenceRating(int nRatingIncrease){
 
+    }
+
+    public static int getCameraPhotoOrientation(String imageFilePath) {
+        int rotate = 0;
+        try {
+
+            ExifInterface exif = null;
+
+            exif = new ExifInterface(imageFilePath);
+            String exifOrientation = exif
+                    .getAttribute(ExifInterface.TAG_ORIENTATION);
+            Log.d("exifOrientation", exifOrientation);
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return rotate;
     }
 
 

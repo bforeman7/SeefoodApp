@@ -36,7 +36,7 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
         setContentView(R.layout.image_gallery_final);
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        ImageBundleView galleryView = new GalleryView(this, view);
+        ImageBundleView galleryView = new GalleryView(this, this.getApplicationContext(), view);
         imageBundle = new ImageBundle();
 
         JSONObject jsonResponses = new JSONObject();
