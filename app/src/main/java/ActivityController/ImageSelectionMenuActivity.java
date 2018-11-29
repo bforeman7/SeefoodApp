@@ -41,6 +41,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
     private Uri outPutfileUri;
     private Bitmap mBitmap;
     private ArrayList<String> imagePaths;
+    private String myFilePath;
 
 
     @Override
@@ -67,7 +68,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
         startActivityForResult(intent, 1);
-        imagePaths.add(file.getPath());
+        myFilePath = file.getPath();
 //        Image newImage = new Image();
 //        newImage.setFilePath(file.getPath());
 //        myImageBundle.getImages().add(newImage);
@@ -101,6 +102,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
                     matrix.postRotate(90);
                     mBitmap = Bitmap.createBitmap(mBitmap , 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
                 }
+                imagePaths.add(myFilePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
