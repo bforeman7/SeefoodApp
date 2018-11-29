@@ -1,11 +1,16 @@
 package CustomViews;
 
+import android.content.Context;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.util.JsonReader;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -33,11 +38,13 @@ public class SeefoodView implements ImageBundleView {
     private int index = 0;
     private Controllable controller;
     private ImageBundle imageBundle;
+    private Context context;
 
 
-    public SeefoodView(final Controllable controller, View view) {
+    public SeefoodView(final Controllable controller, Context context, View view) {
         this.controller = controller;
         this.rootView = view;
+        this.context = context;
         init();
 
         // move one image to the left in the array
@@ -80,7 +87,10 @@ public class SeefoodView implements ImageBundleView {
 
     private void displayImage() {
         Image image = imageBundle.getImages().get(index);
-        Picasso.get().load("http://18.220.189.219/" + image.getsFilePath()).into(imageView);
+        Picasso.get()
+                .load("http://18.220.189.219/" + image.getsFilePath())
+                .rotate(image.getRotation())
+                .into(imageView);
         String message = image.getFirstClassConfidenceRating() +  ", " + image.getSecondtClassConfidenceRating();
         int rating = image.calculateStars();
         tvRating.setText(getFoodDialog(rating));

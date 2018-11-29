@@ -12,6 +12,7 @@ public class Image {
     private String sFilePath;
     private int id;
     private boolean urlPathBool;
+    private int rotation;
 
     public Bitmap getBitmap() {
         return bitmap;
@@ -35,6 +36,10 @@ public class Image {
 
     public String getName() {
         return sName;
+    }
+
+    public int getRotation() {
+        return rotation;
     }
 
     public boolean hasURLPath() {
@@ -76,6 +81,10 @@ public class Image {
 
     public void setUrlPathBool(boolean pathBool) {
         this.urlPathBool = pathBool;
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
     }
 
     public int calculateStars() {
@@ -120,4 +129,5 @@ public class Image {
             return 0;
         }
     }
+
 }

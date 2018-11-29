@@ -39,6 +39,7 @@ public class ImageBundle {
         image.setSecondClassConfidenceRating(Double.parseDouble(jsonObject.getString("second_class_confidence")));
         image.setDateTaken(jsonObject.getString("date_taken"));
         image.setUrlPathBool(true);
+        image.setRotation(Integer.parseInt(jsonObject.getString("image_orientation")));
         images.add(image);
         } catch (JSONException e) {
             e.printStackTrace();
