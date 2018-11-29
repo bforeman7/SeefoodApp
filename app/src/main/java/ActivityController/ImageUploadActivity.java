@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,6 +23,7 @@ import CustomViews.BaseView;
 import CustomViews.ImageSelectionMenuView;
 import CustomViews.ImageUploadView;
 import CustomViews.SeefoodView;
+import ImageModel.Image;
 import test.hulbert.seefood.R;
 
 public class ImageUploadActivity extends AppCompatActivity implements Controllable {
@@ -78,5 +80,13 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 999 && resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "Failed to send images to server.", Toast.LENGTH_LONG).show();
+        }
     }
 }

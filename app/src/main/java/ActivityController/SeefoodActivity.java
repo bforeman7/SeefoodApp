@@ -47,10 +47,18 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
         ArrayList<JSONObject> jsonResponses = new ArrayList<JSONObject>();
         imageBundle = new ImageBundle();
+        JSONObject tmpJSON = null;
 
         for(int i = 0; i < imagePaths.size(); i++) {
             try {
-                imageBundle.addImageThroughJSON(Endpoints.postFile(imagePaths.get(i)).getJSONObject("image"));
+                tmpJSON = Endpoints.postFile(imagePaths.get(i));
+                if(tmpJSON== null){
+                    finish();
+                }else {
+                    tmpJSON.getJSONObject("image");
+                    imageBundle.addImageThroughJSON(tmpJSON);
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -81,7 +89,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
     public void finish() {
         // Since this intent is now finished, we need to send the color selection choices back to the parent intent
         Intent data = new Intent();
-        setResult(RESULT_OK, data);
+        setResult(RESULT_CANCELED, data);
         super.finish();
     }
 

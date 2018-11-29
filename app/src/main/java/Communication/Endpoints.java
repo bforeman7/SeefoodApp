@@ -51,6 +51,7 @@ public class Endpoints {
             public void onFailure(Call call, IOException e) {
                 System.out.println("Failed request");
                 e.printStackTrace();
+                countDownLatch.countDown();
             }
 
             @Override
@@ -76,7 +77,7 @@ public class Endpoints {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(jsonResponse.toString());
+        //System.out.println(jsonResponse.toString());
         return jsonResponse;
 
     }
@@ -113,6 +114,7 @@ public class Endpoints {
                 public void onFailure(Call call, IOException e) {
                     System.out.println("Failed request");
                     e.printStackTrace();
+                    countDownLatch.countDown();
                 }
 
                 @Override
@@ -136,7 +138,7 @@ public class Endpoints {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println(jsonResponse.toString());
+            //System.out.println(jsonResponse.toString());
             return jsonResponse;
         }
 
