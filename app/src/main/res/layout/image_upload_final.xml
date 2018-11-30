@@ -40,6 +40,12 @@
             android:adjustViewBounds="true"
             android:background="@color/colorPrimaryDark"
             android:src="@drawable/place_holder_img" />
+
+        <ProgressBar
+            android:id="@+id/upload_progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
 
     <Button

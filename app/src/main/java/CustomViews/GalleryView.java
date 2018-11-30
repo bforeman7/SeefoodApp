@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -88,7 +89,6 @@ public class GalleryView implements ImageBundleView {
                 .load("http://18.220.189.219/" + image.getsFilePath())
                 .rotate(image.getRotation())
                 .into(imageView);
-//        tvRating.setText(image.getFirstClassConfidenceRating() +  ", " + image.getSecondtClassConfidenceRating());
         String[] path = image.getsFilePath().split("/");
         tvName.setText(path[1]);
         tvUploaded.setText(image.getDateTaken());

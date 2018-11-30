@@ -54,12 +54,11 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
         for(int i = 0; i < imagePaths.size(); i++) {
             try {
-                tmpJSON = Endpoints.postFile(imagePaths.get(i));
+                tmpJSON = Endpoints.postFile(imagePaths.get(i), getCameraPhotoOrientation(imagePaths.get(i)));
                 if(tmpJSON== null){
                     finish();
                 }else {
-                    tmpJSON.getJSONObject("image");
-                    imageBundle.addImageThroughJSON(tmpJSON);
+                    imageBundle.addImageThroughJSON(tmpJSON.getJSONObject("image"));
                 }
 
             } catch (JSONException e) {

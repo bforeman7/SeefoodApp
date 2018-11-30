@@ -115,17 +115,6 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
             Cursor cursor = getContentResolver().query(pickedImage, filePath, null, null, null);
             cursor.moveToFirst();
             String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
-          
-            if (bitmap.getWidth() > bitmap.getHeight()) {
-                Matrix matrix = new Matrix();
-                matrix.postRotate(90);
-                bitmap = Bitmap.createBitmap(bitmap , 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            }
-            Image newImage = new Image();
             imagePaths.add(imagePath);
         }
         // user backed out of reviewing and uploading their images, so we need to get the updated list in case an image was deleted
