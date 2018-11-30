@@ -1,17 +1,25 @@
 package ActivityController;
 
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
+import Communication.Endpoints;
 import CustomViews.BaseView;
 import CustomViews.ImageUploadView;
+import ImageModel.ImageBundle;
 import test.hulbert.seefood.R;
 
 public class ImageUploadActivity extends AppCompatActivity implements Controllable {
@@ -36,9 +44,16 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
             new PostImages(){
                 @Override public void onPostExecute(String result)
                 {
-                    Intent intent = new Intent(getApplicationContext(), SeefoodActivity.class);
-                    intent.putStringArrayListExtra("imagePaths", imagePaths);
-                    startActivityForResult(intent, 999);
+                    if(jsonResponses != null) {
+                        Intent intent = new Intent(getApplicationContext(), SeefoodActivity.class);
+                        intent.putStringArrayListExtra("jsonResponses", jsonResponses);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Could not connect to the server.  Please try again when the server is running.", Toast.LENGTH_LONG).show();
+                        ((ImageUploadView) imageUploadView).hideProgressBar();
+                    }
+
                 }
 
                 @Override
@@ -49,11 +64,20 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
 
                 @Override
                 protected String doInBackground(String... params) {
-                    for(int i=0;i<5;i++) {
+                    jsonResponses = new ArrayList<String>();
+                    JSONObject tmpJSON = null;
+
+                    for(int i = 0; i < imagePaths.size(); i++) {
                         try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
+                            tmpJSON = Endpoints.postFile(imagePaths.get(i), getCameraPhotoOrientation(imagePaths.get(i)));
+                            if(tmpJSON== null){
+                                jsonResponses = null;
+                                return null;
+                            }else {
+                                jsonResponses.add(tmpJSON.getJSONObject("image").toString());
+                            }
+
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -76,6 +100,38 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
     @Override
     public void updateView() {
         ((ImageUploadView) imageUploadView).bindImages(imagePaths);
+    }
+
+    public static int getCameraPhotoOrientation(String imageFilePath) {
+        int rotate = 0;
+        try {
+
+            ExifInterface exif = null;
+
+            exif = new ExifInterface(imageFilePath);
+            String exifOrientation = exif
+                    .getAttribute(ExifInterface.TAG_ORIENTATION);
+            Log.d("exifOrientation", exifOrientation);
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return rotate;
     }
 
     /* This is the finish() method which is called when the user wants to exit the current activity i.e. clicked the back button. */
@@ -104,6 +160,6 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
     }
 
     private abstract class PostImages extends AsyncTask<String, Void, String> {
-
+        public ArrayList<String> jsonResponses;
     }
 }

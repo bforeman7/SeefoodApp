@@ -47,29 +47,18 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         ImageBundleView seefoodView = new SeefoodView(this, this.getApplicationContext(), view);
-
-        ArrayList<JSONObject> jsonResponses = new ArrayList<JSONObject>();
+        ArrayList<String> responses = getIntent().getStringArrayListExtra("jsonResponses");
         imageBundle = new ImageBundle();
-        JSONObject tmpJSON = null;
 
-        for(int i = 0; i < imagePaths.size(); i++) {
+        for (String response : responses) {
             try {
-                tmpJSON = Endpoints.postFile(imagePaths.get(i), getCameraPhotoOrientation(imagePaths.get(i)));
-                if(tmpJSON== null){
-                    finish();
-                }else {
-                    imageBundle.addImageThroughJSON(tmpJSON.getJSONObject("image"));
-                }
-
+                imageBundle.addImageThroughJSON(new JSONObject(response));
             } catch (JSONException e) {
+                finish();
                 e.printStackTrace();
             }
         }
-
         ((SeefoodView) seefoodView).bindImageBundle(imageBundle);
-
-
-
     }
 
     /*
@@ -80,44 +69,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
-    public void updateConfidenceRating(int nRatingIncrease){
-
-    }
-
-    public static int getCameraPhotoOrientation(String imageFilePath) {
-        int rotate = 0;
-        try {
-
-            ExifInterface exif = null;
-
-            exif = new ExifInterface(imageFilePath);
-            String exifOrientation = exif
-                    .getAttribute(ExifInterface.TAG_ORIENTATION);
-            Log.d("exifOrientation", exifOrientation);
-            int orientation = exif.getAttributeInt(
-                    ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_NORMAL);
-
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotate = 270;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    rotate = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotate = 90;
-                    break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return rotate;
-    }
-
-
+    
     /* This is the finish() method which is called when the user wants to exit the current activity i.e. clicked the back button. */
     @Override
     public void finish() {

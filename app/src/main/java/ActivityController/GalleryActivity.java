@@ -38,14 +38,17 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         ImageBundleView galleryView = new GalleryView(this, this.getApplicationContext(), view);
-        imageBundle = new ImageBundle();
+        String response = getIntent().getStringExtra("response");
+        JSONObject jsonResponses = null;
+        try {
+            jsonResponses = new JSONObject(response);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        JSONObject jsonResponses;
-        jsonResponses = Endpoints.getImages(1, 1000);
-        if(jsonResponses == null) {
-            Toast.makeText(this, "Could not connect to the server.  Please try again when the server is running.", Toast.LENGTH_LONG).show();
-            returnHome();
-        }else {
+        if(jsonResponses != null) {
+            imageBundle = new ImageBundle();
+
             JSONArray jsonArray = null;
             try {
                 jsonArray = jsonResponses.getJSONArray("images");
@@ -60,11 +63,13 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
                     e.printStackTrace();
                 }
             }
-
-            ((GalleryView) galleryView).bindImageBundle(imageBundle);
         }
-
+        else {
+            returnHome();
+        }
+        ((GalleryView) galleryView).bindImageBundle(imageBundle);
     }
+
 
     /*
     returns user to home screen and clears all other activates from activity stack
@@ -76,12 +81,6 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
 
     }
 
-    public void updateConfidenceRating(int nRatingIncrease){
-
-    }
-
-    public void sendImagesToServer(View view){
-    }
 
     @Override
     public void updateView(){

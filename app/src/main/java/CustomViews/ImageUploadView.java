@@ -94,12 +94,14 @@ public class ImageUploadView implements BaseView {
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
         bUploadImages.setClickable(false);
+        bDeleteImg.setClickable(false);
         Toast.makeText(context, "Connecting to server...", Toast.LENGTH_LONG).show();
     }
 
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
         bUploadImages.setClickable(true);
+        bDeleteImg.setClickable(true);
     }
 
     private void displayImage() {

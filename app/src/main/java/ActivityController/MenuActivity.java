@@ -21,8 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
+import Communication.Endpoints;
 import CustomViews.BaseView;
 import CustomViews.ImageUploadView;
 import CustomViews.MenuView;
@@ -63,8 +66,15 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
         new GetGallery(){
             @Override public void onPostExecute(String result)
             {
-                Intent intent = new Intent(getApplicationContext(), GalleryActivity.class);
-                startActivity(intent);
+                if(jsonResponses != null) {
+                    Intent intent = new Intent(getApplicationContext(), GalleryActivity.class);
+                    intent.putExtra("response", jsonResponses.toString());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Could not connect to the server.  Please try again when the server is running.", Toast.LENGTH_LONG).show();
+                    ((MenuView) menuView).hideProgressBar();
+                }
             }
 
             @Override
@@ -74,14 +84,15 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
 
             @Override
             protected String doInBackground(String... params) {
-                for(int i=0;i<5;i++) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
+                jsonResponses = Endpoints.getImages(1, 1000);
+//                for(int i=0;i<5;i++) {
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
                 return null;
             }
         }
@@ -94,6 +105,6 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
     }
 
     private abstract class GetGallery extends AsyncTask<String, Void, String> {
-
+        public JSONObject jsonResponses;
     }
 }
