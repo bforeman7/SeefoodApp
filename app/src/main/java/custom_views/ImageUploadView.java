@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -23,6 +24,7 @@ public class ImageUploadView implements BaseView {
     private Button bUploadImages;
     private FloatingActionButton bDeleteImg, bLeftImg, bRightImg;
     private ImageView imageView;
+    private ProgressBar progressBar;
     private ArrayList<String> imagePaths;
     private Controllable controller;
     private int index = 0;
@@ -78,12 +80,29 @@ public class ImageUploadView implements BaseView {
 
     }
 
+
+
     public void init(){
         bLeftImg = rootView.findViewById(R.id.upload_bViewLeftImg);
         bDeleteImg = rootView.findViewById(R.id.upload_bDeleteImg);
         bRightImg = rootView.findViewById(R.id.upload_bViewRightImg);
         bUploadImages = rootView.findViewById(R.id.upload_bUploadImages);
         imageView = rootView.findViewById(R.id.upload_imageView);
+        progressBar = rootView.findViewById(R.id.upload_progressBar);
+        hideProgressBar();
+    }
+
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        bUploadImages.setClickable(false);
+        bDeleteImg.setClickable(false);
+        Toast.makeText(context, "Connecting to server...", Toast.LENGTH_LONG).show();
+    }
+
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        bUploadImages.setClickable(true);
+        bDeleteImg.setClickable(true);
     }
 
     private void displayImage() {

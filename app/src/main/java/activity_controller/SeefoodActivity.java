@@ -1,8 +1,11 @@
 package activity_controller;
 
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,6 +14,7 @@ import android.widget.ScrollView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import communication.Endpoints;
@@ -39,23 +43,19 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         imagePaths = getIntent().getStringArrayListExtra("imagePaths");
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        ImageBundleView seefoodView = new SeefoodView(this, view);
-
-        ArrayList<JSONObject> jsonResponses = new ArrayList<JSONObject>();
+        ImageBundleView seefoodView = new SeefoodView(this, this.getApplicationContext(), view);
+        ArrayList<String> responses = getIntent().getStringArrayListExtra("jsonResponses");
         imageBundle = new ImageBundle();
 
-        for(int i = 0; i < imagePaths.size(); i++) {
+        for (String response : responses) {
             try {
-                imageBundle.addImageThroughJSON(Endpoints.postFile(imagePaths.get(i)).getJSONObject("image"));
+                imageBundle.addImageThroughJSON(new JSONObject(response));
             } catch (JSONException e) {
+                finish();
                 e.printStackTrace();
             }
         }
-
         ((SeefoodView) seefoodView).bindImageBundle(imageBundle);
-
-
-
     }
 
     /*
@@ -66,18 +66,13 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
-    public void updateConfidenceRating(int nRatingIncrease){
-
-    }
-
-
+    
     /* This is the finish() method which is called when the user wants to exit the current activity i.e. clicked the back button. */
     @Override
     public void finish() {
         // Since this intent is now finished, we need to send the color selection choices back to the parent intent
         Intent data = new Intent();
-        setResult(RESULT_OK, data);
+        setResult(RESULT_CANCELED, data);
         super.finish();
     }
 

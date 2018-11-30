@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,29 +37,39 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
         setContentView(R.layout.image_gallery_final);
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        ImageBundleView galleryView = new GalleryView(this, view);
-        imageBundle = new ImageBundle();
-
-        JSONObject jsonResponses = new JSONObject();
-        jsonResponses = Endpoints.getImages(1, 1000);
-        JSONArray jsonArray = null;
+        ImageBundleView galleryView = new GalleryView(this, this.getApplicationContext(), view);
+        String response = getIntent().getStringExtra("response");
+        JSONObject jsonResponses = null;
         try {
-            jsonArray = jsonResponses.getJSONArray("images");
+            jsonResponses = new JSONObject(response);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < jsonArray.length(); i++) {
+        if(jsonResponses != null) {
+            imageBundle = new ImageBundle();
+
+            JSONArray jsonArray = null;
             try {
-                imageBundle.addImageThroughJSON(jsonArray.getJSONObject(i));
+                jsonArray = jsonResponses.getJSONArray("images");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    imageBundle.addImageThroughJSON(jsonArray.getJSONObject(i));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
+        else {
+            returnHome();
+        }
         ((GalleryView) galleryView).bindImageBundle(imageBundle);
-
     }
+
 
     /*
     returns user to home screen and clears all other activates from activity stack
@@ -67,14 +78,9 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
         Intent intent = new Intent(this, MenuActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }
-
-    public void updateConfidenceRating(int nRatingIncrease){
 
     }
 
-    public void sendImagesToServer(View view){
-    }
 
     @Override
     public void updateView(){
