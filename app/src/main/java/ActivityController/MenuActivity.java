@@ -9,12 +9,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import CustomViews.BaseView;
+import CustomViews.ImageUploadView;
 import CustomViews.MenuView;
 import ImageModel.Image;
 import ImageModel.ImageBundle;
@@ -31,6 +34,7 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
 
     private ImageBundle myImageBundle;
     private Uri outPutfileUri;
+    private BaseView menuView;
 
     Bitmap mBitmap;
     @Override
@@ -40,7 +44,7 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
         setContentView(R.layout.home_final);
         //
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        BaseView menuView = new MenuView(view);
+        menuView = new MenuView(view, this.getApplicationContext());
 
         int MY_CAMERA_REQUEST_CODE = 100;
         if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -56,12 +60,40 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
     }
 
     public void gotoGallery(View view) {
-        Intent intent = new Intent(this, GalleryActivity.class);
-        startActivity(intent);
+        new GetGallery(){
+            @Override public void onPostExecute(String result)
+            {
+                Intent intent = new Intent(getApplicationContext(), GalleryActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                ((MenuView) menuView).showProgressBar();
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                for(int i=0;i<5;i++) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+        }
+        .execute("");
     }
 
     @Override
     public void updateView() {
+
+    }
+
+    private abstract class GetGallery extends AsyncTask<String, Void, String> {
 
     }
 }

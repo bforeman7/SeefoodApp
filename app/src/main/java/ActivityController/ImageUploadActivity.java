@@ -1,29 +1,17 @@
 package ActivityController;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
-import Communication.Endpoints;
 import CustomViews.BaseView;
-import CustomViews.ImageSelectionMenuView;
 import CustomViews.ImageUploadView;
-import CustomViews.SeefoodView;
-import ImageModel.Image;
 import test.hulbert.seefood.R;
 
 public class ImageUploadActivity extends AppCompatActivity implements Controllable {
@@ -45,9 +33,34 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
 
     public void uploadImages(View view) {
         if(!imagePaths.isEmpty()) {
-            Intent intent = new Intent(this, SeefoodActivity.class);
-            intent.putStringArrayListExtra("imagePaths", imagePaths);
-            startActivityForResult(intent, 999);
+            new PostImages(){
+                @Override public void onPostExecute(String result)
+                {
+                    Intent intent = new Intent(getApplicationContext(), SeefoodActivity.class);
+                    intent.putStringArrayListExtra("imagePaths", imagePaths);
+                    startActivityForResult(intent, 999);
+                }
+
+                @Override
+                protected void onPreExecute() {
+                    ((ImageUploadView) imageUploadView).showProgressBar();
+
+                }
+
+                @Override
+                protected String doInBackground(String... params) {
+                    for(int i=0;i<5;i++) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                    return null;
+                }
+            }
+            .execute("");
         }
         else {
             Toast.makeText(this, "You must select images before uploading",
@@ -88,5 +101,9 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         if (requestCode == 999 && resultCode == RESULT_CANCELED) {
             Toast.makeText(this, "Failed to send images to server.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private abstract class PostImages extends AsyncTask<String, Void, String> {
+
     }
 }
