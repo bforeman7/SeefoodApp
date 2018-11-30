@@ -12,17 +12,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-import Communication.Endpoints;
-import CustomViews.BaseView;
-import CustomViews.ImageUploadView;
-import CustomViews.MenuView;
-import ImageModel.Image;
-import ImageModel.ImageBundle;
+import communication.Endpoints;
+import custom_views.BaseView;
+import custom_views.ImageUploadView;
+import custom_views.MenuView;
+import image_model.Image;
+import image_model.ImageBundle;
 import test.hulbert.seefood.R;
 
 public class MenuActivity extends AppCompatActivity implements Controllable {

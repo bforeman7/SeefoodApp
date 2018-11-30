@@ -16,10 +16,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Communication.Endpoints;
-import CustomViews.BaseView;
-import CustomViews.ImageUploadView;
-import ImageModel.ImageBundle;
+import communication.Endpoints;
+import custom_views.BaseView;
+import custom_views.ImageUploadView;
+import image_model.ImageBundle;
 import test.hulbert.seefood.R;
 
 public class ImageUploadActivity extends AppCompatActivity implements Controllable {

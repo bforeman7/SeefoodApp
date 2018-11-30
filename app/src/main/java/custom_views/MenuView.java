@@ -1,4 +1,4 @@
-package CustomViews;
+package custom_views;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import ActivityController.Controllable;
+import activity_controller.Controllable;
 import test.hulbert.seefood.R;
 
 public class MenuView implements BaseView {

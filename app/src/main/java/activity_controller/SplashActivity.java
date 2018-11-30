@@ -1,4 +1,4 @@
-package ActivityController;
+package activity_controller;
 
 import android.content.Intent;
 import android.os.Bundle;
