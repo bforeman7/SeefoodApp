@@ -30,6 +30,7 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
     private LinearLayout myLinearLayout;
     private ImageView imageView[];
     private ArrayList<String> imagePaths;
+    private ImageBundleView galleryView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
         setContentView(R.layout.image_gallery_final);
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        ImageBundleView galleryView = new GalleryView(this, this.getApplicationContext(), view);
+        galleryView = new GalleryView(this, this.getApplicationContext(), view);
         String response = getIntent().getStringExtra("response");
         JSONObject jsonResponses = null;
         try {
@@ -81,9 +82,15 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
 
     }
 
+    public void deleteImage(int id, int index){
+        Endpoints.deleteImage(id);
+        imageBundle.deleteImageByID(index);
+        updateView();
+    }
+
 
     @Override
     public void updateView(){
-
+        ((GalleryView) galleryView).bindImageBundle(imageBundle);
     }
 }
