@@ -158,10 +158,26 @@
             android:src="@drawable/home_icon"
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/gallery_bViewRightImg"
+            app:layout_constraintEnd_toStartOf="@+id/gallery_bDeleteImg"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/gallery_bViewLeftImg"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/gallery_bDeleteImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/baseline_delete_black_18dp"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/gallery_bHome"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/gallery_bViewRightImg"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/gallery_bViewRightImg"
@@ -177,7 +193,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/gallery_bHome"
+            app:layout_constraintStart_toEndOf="@+id/gallery_bDeleteImg"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
