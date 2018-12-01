@@ -142,6 +142,53 @@ public class Endpoints {
             }
             //System.out.println(jsonResponse.toString());
             return jsonResponse;
+    }
+
+    public static JSONObject deleteImage(int id){
+        OkHttpClient client = new OkHttpClient();
+        String localURL = url + "image?id=" + id;
+
+        Request request = new Request.Builder()
+                .url(localURL)
+                .delete()
+                .build();
+
+        clearPreviousEndpointContext();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("Failed request");
+                e.printStackTrace();
+                countDownLatch.countDown();
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                } else {
+                    // do something wih the result
+                    try {
+                        jsonResponse = new JSONObject(response.body().string());
+                    } catch (JSONException e) {
+                        System.out.println("Failed to get JSON");
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println(jsonResponse);
+                countDownLatch.countDown();
+            }
+        });
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        //System.out.println(jsonResponse.toString());
+        return jsonResponse;
+
+    }
 
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
@@ -20,19 +21,20 @@ import test.hulbert.seefood.R;
 public class GalleryView implements ImageBundleView {
 
     private View rootView;
-    private FloatingActionButton bHome, bLeftImg, bRightImg;
+    private FloatingActionButton bHome, bLeftImg, bRightImg, bDeleteImg;
 //    private MaterialRatingBar ratingBar;
     private TextView tvRating, tvName, tvUploaded;
     private ImageView imageView;
     private int index = 0;
+    private int numOfImages;
     private Controllable controller;
     private ImageBundle imageBundle;
     private Context context;
 
-    public GalleryView(final Controllable controller, Context context, View view) {
+    public GalleryView(final Controllable controller, Context controllerContext, View view) {
         this.controller = controller;
         this.rootView = view;
-        this.context = context;
+        this.context = controllerContext;
         init();
 
         // move one image to the left in the array
@@ -50,7 +52,7 @@ public class GalleryView implements ImageBundleView {
         bRightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(index+1 < imageBundle.getImages().size()) {
+                if(index+1 < numOfImages) {
                     index++;
                     displayImage();
                 }
@@ -63,12 +65,40 @@ public class GalleryView implements ImageBundleView {
                 ((GalleryActivity)controller).returnHome();
             }
         });
+
+        // delete current image based off index
+        bDeleteImg.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                if(numOfImages > 0) {
+                    try {
+                        // send request to delete image
+                        Image imageToDelete = imageBundle.getImageByID(index);
+                        int id = imageToDelete.getId();
+
+                        // adjust image bundle accordingly
+                        if (index == 0){
+                            ((GalleryActivity) controller).deleteImage(id, index);
+                        } else {
+                            ((GalleryActivity) controller).deleteImage(id, index);
+                            index = 0;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(context, "No images left to delete", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public void init(){
         bLeftImg = rootView.findViewById(R.id.gallery_bViewLeftImg);
         bRightImg = rootView.findViewById(R.id.gallery_bViewRightImg);
         bHome = rootView.findViewById(R.id.gallery_bHome);
+        bDeleteImg = rootView.findViewById(R.id.gallery_bDeleteImg);
 //        ratingBar = rootView.findViewById(R.id.gallery_ratingBar);
         imageView = rootView.findViewById(R.id.gallery_imageView);
         tvRating = rootView.findViewById(R.id.gallery_tvFoodRating);
@@ -113,6 +143,14 @@ public class GalleryView implements ImageBundleView {
         return dialog;
     }
 
+    private void displayPlaceHolder() {
+        Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
+        tvName.setText("");
+        tvUploaded.setText("");
+        tvRating.setText("");
+
+    }
+
     @Override
     public View getRootView() {
         return rootView;
@@ -130,6 +168,10 @@ public class GalleryView implements ImageBundleView {
             this.imageBundle = bundle;
             index = 0;
             displayImage();
+            numOfImages = bundle.getImages().size();
+        } else {
+            displayPlaceHolder();
+            numOfImages = 0;
         }
     }
 }
