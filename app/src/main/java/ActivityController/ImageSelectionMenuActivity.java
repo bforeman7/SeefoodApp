@@ -36,8 +36,6 @@ import test.hulbert.seefood.R;
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class ImageSelectionMenuActivity extends AppCompatActivity implements Controllable {
-
-    private ImageBundle myImageBundle = new ImageBundle();
     private Uri outPutfileUri;
     private Bitmap mBitmap;
     private ArrayList<String> imagePaths;
@@ -58,7 +56,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
     public void takePicture(View view) {
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMddyyHHmm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMddyyHHmmss");
         String myDate = simpleDateFormat.format(Calendar.getInstance().getTime());
         File file = new File(getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 myDate + ".jpg");
@@ -69,9 +67,6 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
         startActivityForResult(intent, 1);
         myFilePath = file.getPath();
-//        Image newImage = new Image();
-//        newImage.setFilePath(file.getPath());
-//        myImageBundle.getImages().add(newImage);
     }
 
     public void selectImage(View view) {

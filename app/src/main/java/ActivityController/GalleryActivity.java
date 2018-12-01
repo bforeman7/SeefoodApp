@@ -82,6 +82,12 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
 
     }
 
+    /* This is the method that is called when the hardware back button is pressed. */
+    @Override
+    public void onBackPressed() {
+        returnHome();
+    }
+
     public void deleteImage(int id, int index){
         Endpoints.deleteImage(id);
         imageBundle.deleteImageByID(index);
