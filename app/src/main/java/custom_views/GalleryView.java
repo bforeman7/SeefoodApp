@@ -99,7 +99,7 @@ public class GalleryView implements ImageBundleView {
         bRightImg = rootView.findViewById(R.id.gallery_bViewRightImg);
         bHome = rootView.findViewById(R.id.gallery_bHome);
         bDeleteImg = rootView.findViewById(R.id.gallery_bDeleteImg);
-//        ratingBar = rootView.findViewById(R.id.gallery_ratingBar);
+//      ratingBar = rootView.findViewById(R.id.gallery_ratingBar);
         imageView = rootView.findViewById(R.id.gallery_imageView);
         tvRating = rootView.findViewById(R.id.gallery_tvFoodRating);
         tvName = rootView.findViewById(R.id.gallery_tvName);
