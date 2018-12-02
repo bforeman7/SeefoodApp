@@ -40,6 +40,14 @@ public class ImageBundle {
         return images;
     }
 
+    public Image getSpecificImage(int index) {
+        return images.get(index);
+    }
+
+    public int getSize() {
+        return images.size();
+    }
+
     /**
      *This will remove an Image the user selects on the UI.
      * This will remove by index

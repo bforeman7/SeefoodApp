@@ -73,7 +73,7 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
         else {
             returnHome();
         }
-        ((GalleryView) galleryView).bindImageBundle(imageBundle);
+        updateView();
     }
 
 

@@ -22,6 +22,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
     private ImageBundle imageBundle;
     private ArrayList<String> imagePaths;
+    private ImageBundleView seefoodView;
 
     public SeefoodActivity() {
     }
@@ -34,7 +35,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         imagePaths = getIntent().getStringArrayListExtra("imagePaths");
 
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        ImageBundleView seefoodView = new SeefoodView(this, this.getApplicationContext(), view);
+        seefoodView = new SeefoodView(this, this.getApplicationContext(), view);
         ArrayList<String> responses = getIntent().getStringArrayListExtra("jsonResponses");
         imageBundle = new ImageBundle();
 
@@ -46,7 +47,7 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
                 e.printStackTrace();
             }
         }
-        ((SeefoodView) seefoodView).bindImageBundle(imageBundle);
+        updateView();
     }
 
     /*
@@ -76,6 +77,6 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
     @Override
     public void updateView(){
-
+        ((SeefoodView) seefoodView).bindImageBundle(imageBundle);
     }
 }

@@ -126,7 +126,7 @@ public class ImageUploadView implements BaseView {
      * If there is no images selected this place holder image will be displayed.
      */
     private void displayPlaceHolder() {
-        Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
+        Picasso.get().load(R.drawable.place_holder_img).into(imageView);
     }
 
     @Override
