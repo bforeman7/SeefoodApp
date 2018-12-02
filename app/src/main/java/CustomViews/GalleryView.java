@@ -114,7 +114,7 @@ public class GalleryView implements ImageBundleView {
     }
 
     private void displayImage() {
-        Image image = imageBundle.getImages().get(index);
+        Image image = imageBundle.getSpecificImage(index);
         Picasso.get()
                 .load("http://18.220.189.219/" + image.getsFilePath())
                 .rotate(image.getRotation())
@@ -151,10 +151,12 @@ public class GalleryView implements ImageBundleView {
     }
 
     private void displayPlaceHolder() {
-        Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
+        Picasso.get().load(R.drawable.place_holder_img).into(imageView);
         tvName.setText("");
         tvUploaded.setText("");
         tvRating.setText("");
+        ratingBar.setRating(0);
+        Toast.makeText(context, "No images on server", Toast.LENGTH_LONG).show();
 
     }
 
@@ -163,19 +165,13 @@ public class GalleryView implements ImageBundleView {
         return rootView;
     }
 
-
-    public  void displayConfidenceRating(int nRating){
-
-    }
-
-
     @Override
     public void bindImageBundle(ImageBundle bundle) {
-        if(bundle.getImages().size() > 0) {
+        if(bundle.getSize() > 0) {
             this.imageBundle = bundle;
             index = 0;
             displayImage();
-            numOfImages = bundle.getImages().size();
+            numOfImages = bundle.getSize();
         } else {
             displayPlaceHolder();
             numOfImages = 0;

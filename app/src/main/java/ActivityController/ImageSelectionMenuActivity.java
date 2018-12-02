@@ -47,10 +47,8 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         super.onCreate(savedInstanceState);
         // we set the initial content view
         setContentView(R.layout.image_selection_final);
-        //
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         BaseView imageSelectionView = new ImageSelectionMenuView(view);
-//        myImageBundle = new ImageBundle();
         imagePaths = new ArrayList<>();
     }
 

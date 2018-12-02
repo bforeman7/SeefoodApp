@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class ImageBundle {
     private ArrayList<Image> images = new ArrayList<>();
-    //private Controllable controller
 
     public Image getImageByID(int nIDnumber){
 
@@ -49,6 +48,14 @@ public class ImageBundle {
 
     public ArrayList<Image> getImages() {
         return images;
+    }
+
+    public Image getSpecificImage(int index) {
+        return images.get(index);
+    }
+
+    public int getSize() {
+        return images.size();
     }
 
     /**

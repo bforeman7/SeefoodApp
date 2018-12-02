@@ -63,7 +63,7 @@ public class SeefoodView implements ImageBundleView {
         bRightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(index+1 < imageBundle.getImages().size()) {
+                if(index+1 < imageBundle.getSize()) {
                     index++;
                     displayImage();
                 }
@@ -87,7 +87,7 @@ public class SeefoodView implements ImageBundleView {
     }
 
     private void displayImage() {
-        Image image = imageBundle.getImages().get(index);
+        Image image = imageBundle.getSpecificImage(index);
         Picasso.get()
                 .load("http://18.220.189.219/" + image.getsFilePath())
                 .rotate(image.getRotation())
@@ -96,10 +96,6 @@ public class SeefoodView implements ImageBundleView {
         int rating = image.calculateStars();
         tvRating.setText(getFoodDialog(rating));
         ratingBar.setRating(image.calculateStars());
-    }
-
-    private void displayPlaceHolder() {
-        Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
     }
 
     private String getFoodDialog(int starRating) {
@@ -132,7 +128,7 @@ public class SeefoodView implements ImageBundleView {
 
     @Override
     public void bindImageBundle(ImageBundle bundle) {
-        if(bundle.getImages().size() > 0) {
+        if(bundle.getSize() > 0) {
             this.imageBundle = bundle;
             index = 0;
             displayImage();

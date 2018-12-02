@@ -109,7 +109,7 @@ public class ImageUploadView implements BaseView {
     }
 
     private void displayPlaceHolder() {
-        Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
+        Picasso.get().load(R.drawable.place_holder_img).into(imageView);
     }
 
     @Override
