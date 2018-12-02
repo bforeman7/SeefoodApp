@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import Communication.Endpoints;
 import CustomViews.BaseView;
 import CustomViews.ImageUploadView;
-import ImageModel.ImageBundle;
 import test.hulbert.seefood.R;
 
 public class ImageUploadActivity extends AppCompatActivity implements Controllable {
@@ -27,6 +26,9 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
     private ArrayList<String> imagePaths;
     private BaseView imageUploadView;
 
+    /**
+     * This will load in the current images selected and display them to the user.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         imageUploadView = new ImageUploadView(this, view, this.getApplicationContext());
         ((ImageUploadView) imageUploadView).bindImages(imagePaths);
     }
+
 
     public void uploadImages(View view) {
         if(!imagePaths.isEmpty()) {
@@ -102,6 +105,9 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         ((ImageUploadView) imageUploadView).bindImages(imagePaths);
     }
 
+    /*
+    This will fix an image if it is turned sideways when importing form the server.
+    */
     public static int getCameraPhotoOrientation(String imageFilePath) {
         int rotate = 0;
         try {

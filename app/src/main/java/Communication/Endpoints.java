@@ -21,7 +21,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Endpoints {
-    private Endpoints instance = new Endpoints();
     private static String url = "http://18.220.189.219/";
     private static JSONObject jsonResponse;
     private static CountDownLatch countDownLatch;
@@ -34,7 +33,10 @@ public class Endpoints {
         countDownLatch = new CountDownLatch(1);
     }
 
-
+    /**
+     * This will get images from the server one at a time.  If the image fails then the user is take to the home screen and displayed
+     * an error toast message.
+     */
     public static JSONObject getImages(int start, int end) {
 
         OkHttpClient client = new OkHttpClient();
@@ -59,7 +61,6 @@ public class Endpoints {
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
                 } else {
-                    // do something wih the result
                     try {
                         jsonResponse = new JSONObject(response.body().string());
                     } catch (JSONException e) {
@@ -77,11 +78,14 @@ public class Endpoints {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //System.out.println(jsonResponse.toString());
         return jsonResponse;
 
     }
 
+    /**
+     * This will post images to the server one at a time.  If the image fails then the user is take to the home screen and displayed
+     * an error toast message.
+     */
     public static JSONObject postFile(String imagePath, int orientation) {
 
             final MediaType MEDIA_TYPE;
@@ -140,10 +144,12 @@ public class Endpoints {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //System.out.println(jsonResponse.toString());
             return jsonResponse;
     }
 
+    /**
+     * This will  ping the server and delete images out on the server should the user wish to.
+     */
     public static JSONObject deleteImage(int id){
         OkHttpClient client = new OkHttpClient();
         String localURL = url + "image?id=" + id;
@@ -168,7 +174,6 @@ public class Endpoints {
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
                 } else {
-                    // do something wih the result
                     try {
                         jsonResponse = new JSONObject(response.body().string());
                     } catch (JSONException e) {
@@ -186,7 +191,6 @@ public class Endpoints {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //System.out.println(jsonResponse.toString());
         return jsonResponse;
 
     }

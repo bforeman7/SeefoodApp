@@ -1,38 +1,26 @@
 package ActivityController;
 
 import android.content.Intent;
-import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import Communication.Endpoints;
 import CustomViews.ImageBundleView;
-import CustomViews.MenuView;
 import CustomViews.SeefoodView;
-import ImageModel.Image;
 import ImageModel.ImageBundle;
 import test.hulbert.seefood.R;
 
 public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
     private ImageBundle imageBundle;
-    private SeefoodView BaseView;
-    private ScrollView myScrollView;
-    private LinearLayout myLinearLayout;
-    private ImageView imageView[];
     private ArrayList<String> imagePaths;
 
     public SeefoodActivity() {

@@ -3,33 +3,21 @@ package ActivityController;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import CustomViews.BaseView;
-import CustomViews.ImageSelectionMenuView;
-import ImageModel.Image;
-import ImageModel.ImageBundle;
 import test.hulbert.seefood.BuildConfig;
 import test.hulbert.seefood.R;
 
@@ -47,13 +35,13 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         super.onCreate(savedInstanceState);
         // we set the initial content view
         setContentView(R.layout.image_selection_final);
-        //
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
-        BaseView imageSelectionView = new ImageSelectionMenuView(view);
-//        myImageBundle = new ImageBundle();
         imagePaths = new ArrayList<>();
     }
 
+    /**
+     * The user is sent to the camera to take a picture.
+     */
     public void takePicture(View view) {
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMddyyHHmmss");
@@ -69,11 +57,17 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         myFilePath = file.getPath();
     }
 
+    /**
+     * The user is taken to the gallery to select an image to send.
+     */
     public void selectImage(View view) {
         Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 2);
     }
 
+    /**
+     * This will call on image upload class if the user presses the review button
+     */
     public void reviewImages(View view) {
         Intent intent = new Intent(this, ImageUploadActivity.class);
         intent.putStringArrayListExtra("imagePaths", imagePaths);
@@ -85,13 +79,15 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
     }
 
+    /**
+     * This will get the activity of a image selection from the gallery or a picture was taken and save the bitmap and the
+     * file path for the images.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            String uri = outPutfileUri.toString();
             try {
                 mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outPutfileUri);
-                //Drawable draw = new BitmapDrawable(getResources(), mBitmap);
                 if (mBitmap.getWidth() > mBitmap.getHeight()) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(90);

@@ -4,19 +4,10 @@ import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.ArrayList;
 
 import ActivityController.Controllable;
 import ActivityController.GalleryActivity;
@@ -38,6 +29,10 @@ public class GalleryView implements ImageBundleView {
     private ImageBundle imageBundle;
     private Context context;
 
+    /**
+     * This will display the images from the server to the user.  The user can scan through them using the arrow buttons.
+     *
+     */
     public GalleryView(final Controllable controller, Context controllerContext, View view) {
         this.controller = controller;
         this.rootView = view;
@@ -113,6 +108,9 @@ public class GalleryView implements ImageBundleView {
         tvUploaded = rootView.findViewById(R.id.gallery_tvUploadTime);
     }
 
+    /**
+     * This will display each image to the image view for the user to see the image that is out on the server
+     */
     private void displayImage() {
         Image image = imageBundle.getImages().get(index);
         Picasso.get()
@@ -127,6 +125,9 @@ public class GalleryView implements ImageBundleView {
         ratingBar.setRating(image.calculateStars());
     }
 
+    /**
+     * This will control our dialog to the user if the server sees food or not.  It will be based on the star rating
+     */
     private String getFoodDialog(int starRating) {
         String dialog = "";
         if(starRating == 5) {
@@ -150,6 +151,9 @@ public class GalleryView implements ImageBundleView {
         return dialog;
     }
 
+    /**
+     *This is a place holder image if there is no images available on the server.
+     */
     private void displayPlaceHolder() {
         Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
         tvName.setText("");

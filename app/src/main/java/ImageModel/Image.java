@@ -1,10 +1,7 @@
 package ImageModel;
 
-import android.graphics.Bitmap;
-import android.os.Parcelable;
 
 public class Image {
-    private Bitmap bitmap;
     private String dateTaken;
     private String sName;
     private double firstClassConfidenceRating;
@@ -13,10 +10,6 @@ public class Image {
     private int id;
     private boolean urlPathBool;
     private int rotation;
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
 
     public String getDateTaken() {
         return dateTaken;
@@ -40,14 +33,6 @@ public class Image {
 
     public int getRotation() {
         return rotation;
-    }
-
-    public boolean hasURLPath() {
-        return urlPathBool;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
     }
 
     public void setDateTaken(String dateTaken) {

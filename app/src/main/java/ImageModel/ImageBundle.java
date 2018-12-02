@@ -8,22 +8,11 @@ import java.util.ArrayList;
 
 public class ImageBundle {
     private ArrayList<Image> images = new ArrayList<>();
-    //private Controllable controller
 
     public Image getImageByID(int nIDnumber){
 
         return images.get(nIDnumber);
     }
-
-    /*
-    Used to add an image object that we create
-     */
-    public void addImage(Image image) {
-        images.add(image);
-        image.setUrlPathBool(false);
-    }
-
-
     /*
     Used to create an image object that we want to create from a JSON server response
      */
@@ -57,15 +46,6 @@ public class ImageBundle {
      */
     public void deleteImageByID(int nPosition){
         images.remove(nPosition);
-    }
-
-    public ArrayList<String> getImagePathsToString() {
-        ArrayList<String> URIs = new ArrayList<String>();
-        for(int i = 0; i < images.size(); i++)
-        {
-            URIs.add(images.get(i).getsFilePath());
-        }
-        return URIs;
     }
 
 }

@@ -31,6 +31,9 @@ public class ImageUploadView implements BaseView {
     private int numOfImages;
     private Context context;
 
+    /**
+     * This controls what each button does in the image upload view.
+     */
     public ImageUploadView(final Controllable controller, final ViewGroup container, Context controllerContext) {
         this.rootView = container;
         this.controller = controller;
@@ -81,6 +84,9 @@ public class ImageUploadView implements BaseView {
 
 
 
+    /**
+     * This will imitialize all or our variables
+     */
     public void init(){
         bLeftImg = rootView.findViewById(R.id.upload_bViewLeftImg);
         bDeleteImg = rootView.findViewById(R.id.upload_bDeleteImg);
@@ -91,23 +97,34 @@ public class ImageUploadView implements BaseView {
         hideProgressBar();
     }
 
+    /**
+     * This will show the progress bar to the user.
+     */
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
         bUploadImages.setClickable(false);
         bDeleteImg.setClickable(false);
         Toast.makeText(context, "Connecting to server...", Toast.LENGTH_LONG).show();
     }
-
+    /**
+     * This will hide the current progress bar from the user.
+     */
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
         bUploadImages.setClickable(true);
         bDeleteImg.setClickable(true);
     }
 
+    /**
+     * This will display the images to the phone that the user has selected
+     */
     private void displayImage() {
         Picasso.get().load(new File(imagePaths.get(index))).into(imageView);
     }
 
+    /**
+     * If there is no images selected this place holder image will be displayed.
+     */
     private void displayPlaceHolder() {
         Picasso.get().load("https://cdn-images-1.medium.com/max/1600/0*-ouKIOsDCzVCTjK-.png").into(imageView);
     }
@@ -117,6 +134,10 @@ public class ImageUploadView implements BaseView {
         return rootView;
     }
 
+    /**
+     *This will get the number of images currently selected and will also call the display method.  If
+     * there is no images to show then it will call the place holder image.
+     */
     public void bindImages(ArrayList<String> imagePaths) {
         if(!imagePaths.isEmpty()) {
             this.imagePaths = imagePaths;

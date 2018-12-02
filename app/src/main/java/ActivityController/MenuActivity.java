@@ -35,11 +35,10 @@ import test.hulbert.seefood.R;
 
 public class MenuActivity extends AppCompatActivity implements Controllable {
 
-    private ImageBundle myImageBundle;
-    private Uri outPutfileUri;
     private BaseView menuView;
-
-    Bitmap mBitmap;
+    /***
+     *This method will check for permissions to grant the user persmission to use the camera.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +56,9 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
         }
     }
 
+    /***
+     * This will take the user to select an image, take a picture, and review their images from the image selection menu.
+     */
     public void TakePhoto(View view) {
         Intent intent = new Intent(this, ImageSelectionMenuActivity.class);
         startActivity(intent);

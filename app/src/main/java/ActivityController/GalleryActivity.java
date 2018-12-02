@@ -32,6 +32,11 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
     private ArrayList<String> imagePaths;
     private ImageBundleView galleryView;
 
+    /***
+     *This class will be used for getting images that are already on the server and viewimg them in gallery view.
+     * The images will be added into an image bundle that will be displayed later.  If the server is down the user
+     * is prompted with a message stating that it could not connect due to the server being down.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +99,9 @@ public class GalleryActivity extends AppCompatActivity implements Controllable {
         updateView();
     }
 
-
+    /***
+     *This will update the current view after it has been changed by some other activity.
+     */
     @Override
     public void updateView(){
         ((GalleryView) galleryView).bindImageBundle(imageBundle);
