@@ -19,7 +19,7 @@ public class Image {
         return firstClassConfidenceRating;
     }
 
-    public double getSecondtClassConfidenceRating() {
+    public double getSecondClassConfidenceRating() {
         return secondClassConfidenceRating;
     }
 
@@ -72,6 +72,10 @@ public class Image {
         this.rotation = rotation;
     }
 
+    /**
+     * Returns a 0-5 integer start rating based off the confidence ratings.
+     * @return star rating
+     */
     public int calculateStars() {
         // calculate differential between confidence ratings
         int rating = 1;
@@ -98,6 +102,13 @@ public class Image {
         return rating;
     }
 
+    /**
+     * Calcuates the differential between numbers x and y. Will return a 0 if the deferential is less than or equal to the threshold and a 1 if it is greater than the threshold.
+     * @param x first number
+     * @param y second number
+     * @param threshold threshold
+     * @return 0 if the deferential is less than or equal to the threshold and a 1 if it is greater than the threshold.
+     */
     private int calculateDifferential(double x, double y, double threshold) {
         double delta;
         if(x > y) {

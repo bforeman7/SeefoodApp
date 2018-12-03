@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class SplashActivity extends AppCompatActivity implements Controllable {
+/**
+ * Displays a splash screen for when the application first boots up. Once application is loaded, MenuActivity is displayed.
+ */
 
+public class SplashActivity extends AppCompatActivity implements Controllable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

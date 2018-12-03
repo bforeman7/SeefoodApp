@@ -6,6 +6,10 @@ import android.widget.Button;
 
 import test.hulbert.seefood.R;
 
+/**
+ * View class for ImageSelectionMenu. Handles view related logic.
+ */
+
 public class ImageSelectionMenuView implements BaseView {
 
     private View rootView;
@@ -21,6 +25,11 @@ public class ImageSelectionMenuView implements BaseView {
         selectImage = rootView.findViewById(R.id.selection_bSelectImage);
         reviewImages = rootView.findViewById(R.id.selection_bReviewImages);
     }
+
+    /**
+     * Returns rootView of the view.
+     * @return View
+     */
 
     @Override
     public View getRootView() {

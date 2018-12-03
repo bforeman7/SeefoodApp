@@ -21,6 +21,10 @@ import CustomViews.BaseView;
 import CustomViews.ImageUploadView;
 import test.hulbert.seefood.R;
 
+/**
+ * Controller class for the ImageUpload screen. Handles controller logic for uploading images to the server.
+ */
+
 public class ImageUploadActivity extends AppCompatActivity implements Controllable {
 
     private ArrayList<String> imagePaths;
@@ -42,9 +46,16 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
     }
 
 
+    /**
+     * Starts an endpoints call in an Async Thread. The endpoints call uploads the images selected to the the server.
+     * If success occurs then the code proceeds to the next activity. If failure occurs, then the current activity is still displayed.
+     * @param view
+     */
     public void uploadImages(View view) {
+        // Overriding Async methods here instead of in class so that way we can reference this Activities variables
         if(!imagePaths.isEmpty()) {
             new PostImages(){
+                // After the async thread does its job
                 @Override public void onPostExecute(String result)
                 {
                     if(jsonResponses != null) {
@@ -59,12 +70,14 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
 
                 }
 
+                // Before the async thread starts. UI logic should be done here.
                 @Override
                 protected void onPreExecute() {
                     ((ImageUploadView) imageUploadView).showProgressBar();
 
                 }
 
+                // Task which will be done in async thread
                 @Override
                 protected String doInBackground(String... params) {
                     jsonResponses = new ArrayList<String>();
@@ -72,7 +85,7 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
 
                     for(int i = 0; i < imagePaths.size(); i++) {
                         try {
-                            tmpJSON = Endpoints.postFile(imagePaths.get(i), getCameraPhotoOrientation(imagePaths.get(i)));
+                            tmpJSON = Endpoints.postImage(imagePaths.get(i), getCameraPhotoOrientation(imagePaths.get(i)));
                             if(tmpJSON== null){
                                 jsonResponses = null;
                                 return null;
@@ -95,19 +108,28 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         }
     }
 
+    /**
+     * Controller logic for deleting an image
+     * @param index index of image paths array to delete
+     */
     public void deleteImage(int index) {
         imagePaths.remove(index);
         updateView();
     }
 
+    /**
+     * Controller logic for updating the images displayed to the user
+     */
     @Override
     public void updateView() {
         ((ImageUploadView) imageUploadView).bindImages(imagePaths);
     }
 
-    /*
-    This will fix an image if it is turned sideways when importing form the server.
-    */
+    /**
+     * Gets the orientation of an image on the mobile device.
+     * @param imageFilePath file path to image on device
+     * @return orientation of the image
+     */
     public static int getCameraPhotoOrientation(String imageFilePath) {
         int rotate = 0;
         try {
@@ -140,7 +162,10 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
         return rotate;
     }
 
-    /* This is the finish() method which is called when the user wants to exit the current activity i.e. clicked the back button. */
+    /**
+     * This is the finish() method which is called when the user wants to exit the current activity i.e. clicked the back button. In our case, we send the user back to the previous activity with
+     * any changes they have made in this activity.
+     */
     @Override
     public void finish() {
         // Since this intent is now finished, we need to send the color selection choices back to the parent intent
@@ -151,20 +176,17 @@ public class ImageUploadActivity extends AppCompatActivity implements Controllab
     }
 
 
-    /* This is the method that is called when the hardware back button is pressed. */
+    /**
+     * This is the method that is called when the hardware back button is pressed.
+     */
     @Override
     public void onBackPressed() {
         finish();
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 999 && resultCode == RESULT_CANCELED) {
-            Toast.makeText(this, "Failed to send images to server.", Toast.LENGTH_LONG).show();
-        }
-    }
-
+    /**
+     * Class for Async thread when Endpoints call is being made.
+     */
     private abstract class PostImages extends AsyncTask<String, Void, String> {
         public ArrayList<String> jsonResponses;
     }

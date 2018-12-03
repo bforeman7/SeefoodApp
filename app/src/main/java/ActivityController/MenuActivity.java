@@ -3,42 +3,27 @@ package ActivityController;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.json.JSONObject;
-
-import java.io.IOException;
-
 import Communication.Endpoints;
 import CustomViews.BaseView;
-import CustomViews.ImageUploadView;
 import CustomViews.MenuView;
-import ImageModel.Image;
-import ImageModel.ImageBundle;
 import test.hulbert.seefood.R;
+
+/**
+ * Controller class for Main menu for the application. Handles controller logic for the upload images UI path or view images UI path.
+ */
 
 public class MenuActivity extends AppCompatActivity implements Controllable {
 
     private BaseView menuView;
-    /***
-     *This method will check for permissions to grant the user persmission to use the camera.
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +33,7 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
         ViewGroup view = (ViewGroup) findViewById(android.R.id.content);
         menuView = new MenuView(view, this.getApplicationContext());
 
+        // Check camera permissions
         int MY_CAMERA_REQUEST_CODE = 100;
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -58,14 +44,21 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
 
     /***
      * This will take the user to select an image, take a picture, and review their images from the image selection menu.
+     * @param view
      */
     public void TakePhoto(View view) {
         Intent intent = new Intent(this, ImageSelectionMenuActivity.class);
         startActivity(intent);
     }
 
+
+    /**
+     * Uses and Async thread to make a Endpoints call. Upon success the gallery activity will be started. Upon failure the menu activity will stay in view.
+     * @param view
+     */
     public void gotoGallery(View view) {
         new GetGallery(){
+            // After Async call has been made
             @Override public void onPostExecute(String result)
             {
                 if(jsonResponses != null) {
@@ -79,11 +72,13 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
                 }
             }
 
+            // Before async call is made. UI logic goes here.
             @Override
             protected void onPreExecute() {
                 ((MenuView) menuView).showProgressBar();
             }
 
+            // Task to be completed during async call
             @Override
             protected String doInBackground(String... params) {
                 jsonResponses = Endpoints.getImages(1, 1000);
@@ -98,6 +93,9 @@ public class MenuActivity extends AppCompatActivity implements Controllable {
 
     }
 
+    /**
+     * Async class for endpoints call
+     */
     private abstract class GetGallery extends AsyncTask<String, Void, String> {
         public JSONObject jsonResponses;
     }

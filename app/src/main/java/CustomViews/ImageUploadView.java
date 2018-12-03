@@ -18,6 +18,10 @@ import ActivityController.Controllable;
 import ActivityController.ImageUploadActivity;
 import test.hulbert.seefood.R;
 
+/**
+ * View class for ImageUpload. Handles view related logic.
+ */
+
 public class ImageUploadView implements BaseView {
 
     private View rootView;
@@ -85,7 +89,7 @@ public class ImageUploadView implements BaseView {
 
 
     /**
-     * This will imitialize all or our variables
+     * This will initialize all or our variables
      */
     public void init(){
         bLeftImg = rootView.findViewById(R.id.upload_bViewLeftImg);
@@ -98,7 +102,7 @@ public class ImageUploadView implements BaseView {
     }
 
     /**
-     * This will show the progress bar to the user.
+     * This will show the progress bar to the user. Restores modified UI elements.
      */
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
@@ -107,7 +111,7 @@ public class ImageUploadView implements BaseView {
         Toast.makeText(context, "Connecting to server...", Toast.LENGTH_LONG).show();
     }
     /**
-     * This will hide the current progress bar from the user.
+     * This will hide the current progress bar from the user. Also modifies UI elements which should be hidden or not intractable to the user.
      */
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
@@ -129,6 +133,11 @@ public class ImageUploadView implements BaseView {
         Picasso.get().load(R.drawable.place_holder_img).into(imageView);
     }
 
+    /**
+     * Returns rootView of the view.
+     * @return View
+     */
+
     @Override
     public View getRootView() {
         return rootView;
@@ -137,6 +146,7 @@ public class ImageUploadView implements BaseView {
     /**
      *This will get the number of images currently selected and will also call the display method.  If
      * there is no images to show then it will call the place holder image.
+     * @param imagePaths the file path to the image on the mobile device
      */
     public void bindImages(ArrayList<String> imagePaths) {
         if(!imagePaths.isEmpty()) {

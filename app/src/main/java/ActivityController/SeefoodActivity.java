@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +14,10 @@ import CustomViews.ImageBundleView;
 import CustomViews.SeefoodView;
 import ImageModel.ImageBundle;
 import test.hulbert.seefood.R;
+
+/**
+ * Controller class for the Seefood screen. Handles controller logic which displays the images sent to the server and their food confidence ratings.
+ */
 
 public class SeefoodActivity extends AppCompatActivity implements Controllable {
 
@@ -50,8 +51,8 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         updateView();
     }
 
-    /*
-    returns user to home screen and clears all other activates from activity stack
+    /**
+     * Returns user to home screen and clears all other activates from activity stack
      */
     public void returnHome() {
         Intent intent = new Intent(this, MenuActivity.class);
@@ -59,7 +60,9 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
         startActivity(intent);
     }
     
-    /* This is the finish() method which is called when the user wants to exit the current activity i.e. clicked the back button. */
+    /**
+     * This is the finish() method which is called when the user wants to exit the current activity i.e. clicked the back button.
+     * */
     @Override
     public void finish() {
         // Since this intent is now finished, we need to send the color selection choices back to the parent intent
@@ -69,14 +72,19 @@ public class SeefoodActivity extends AppCompatActivity implements Controllable {
     }
 
 
-    /* This is the method that is called when the hardware back button is pressed. */
+    /**
+     * This is the method that is called when the hardware back button is pressed.
+     */
     @Override
     public void onBackPressed() {
 
     }
 
+    /**
+     * Updates the view for the current activity
+     */
     @Override
     public void updateView(){
-        ((SeefoodView) seefoodView).bindImageBundle(imageBundle);
+        (seefoodView).bindImageBundle(imageBundle);
     }
 }

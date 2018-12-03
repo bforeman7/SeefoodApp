@@ -1,15 +1,17 @@
 package CustomViews;
 import android.content.Context;
 import android.view.View;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import ActivityController.Controllable;
 import test.hulbert.seefood.R;
+
+/**
+ * View class for Main Menu. Handles view related logic.
+ */
+
 
 public class MenuView implements BaseView {
     private View rootView;
@@ -23,6 +25,11 @@ public class MenuView implements BaseView {
         init();
     }
 
+    /**
+     * Returns rootView of the view.
+     * @return View
+     */
+
     @Override
     public View getRootView() {
         return rootView;
@@ -35,6 +42,9 @@ public class MenuView implements BaseView {
         hideProgressBar();
     }
 
+    /**
+     * This will show the progress bar to the user. Restores modified UI elements.
+     */
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
         uploadImages.setClickable(false);
@@ -45,6 +55,9 @@ public class MenuView implements BaseView {
 
     }
 
+    /**
+     * This will hide the current progress bar from the user. Also modifies UI elements which should be hidden or not intractable to the user.
+     */
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
         uploadImages.setClickable(true);

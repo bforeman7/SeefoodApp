@@ -1,29 +1,16 @@
 package CustomViews;
 
 import android.content.Context;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
-import android.util.JsonReader;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.ArrayList;
-
 import ActivityController.Controllable;
-import ActivityController.GalleryActivity;
 import ActivityController.SeefoodActivity;
+import Communication.Endpoints;
 import ImageModel.Image;
 import ImageModel.ImageBundle;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -86,18 +73,26 @@ public class SeefoodView implements ImageBundleView {
         tvRating = rootView.findViewById(R.id.seefood_tvFoodRating);
     }
 
+    /**
+     * This will display each image to the image view for the user to see the image that is out on the server
+     */
+
     private void displayImage() {
         Image image = imageBundle.getSpecificImage(index);
         Picasso.get()
-                .load("http://18.220.189.219/" + image.getsFilePath())
+                .load(Endpoints.getServerURL() + image.getsFilePath())
                 .rotate(image.getRotation())
                 .into(imageView);
-        String message = image.getFirstClassConfidenceRating() +  ", " + image.getSecondtClassConfidenceRating();
+        String message = image.getFirstClassConfidenceRating() +  ", " + image.getSecondClassConfidenceRating();
         int rating = image.calculateStars();
         tvRating.setText(getFoodDialog(rating));
         ratingBar.setRating(image.calculateStars());
     }
 
+
+    /**
+     * This will control our dialog to the user if the server sees food or not.  It will be based on the star rating
+     */
     private String getFoodDialog(int starRating) {
         String dialog = "";
         if(starRating == 5) {
@@ -121,11 +116,20 @@ public class SeefoodView implements ImageBundleView {
         return dialog;
     }
 
+    /**
+     * Returns rootView of the view.
+     * @return View
+     */
+
     @Override
     public View getRootView() {
         return rootView;
     }
 
+    /**
+     * Binds a bundle of images to the view
+     * @param bundle the ImageBundle
+     */
     @Override
     public void bindImageBundle(ImageBundle bundle) {
         if(bundle.getSize() > 0) {

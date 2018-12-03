@@ -23,6 +23,10 @@ import test.hulbert.seefood.R;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
+/**
+ * Controller responsible for the ImageSelectionMenu screen. Handles controller logic for images being selected through camera or file path.
+ */
+
 public class ImageSelectionMenuActivity extends AppCompatActivity implements Controllable {
     private Uri outPutfileUri;
     private Bitmap mBitmap;
@@ -41,6 +45,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
     /**
      * The user is sent to the camera to take a picture.
+     * @param view
      */
     public void takePicture(View view) {
         Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -59,6 +64,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
     /**
      * The user is taken to the gallery to select an image to send.
+     * @param view
      */
     public void selectImage(View view) {
         Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -67,6 +73,7 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
     /**
      * This will call on image upload class if the user presses the review button
+     * @param view
      */
     public void reviewImages(View view) {
         Intent intent = new Intent(this, ImageUploadActivity.class);
@@ -74,6 +81,9 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
         startActivityForResult(intent, 3);
     }
 
+    /**
+     * Nothing is displayed that must also be updated in this controller's view.
+     */
     @Override
     public void updateView() {
 
@@ -81,7 +91,10 @@ public class ImageSelectionMenuActivity extends AppCompatActivity implements Con
 
     /**
      * This will get the activity of a image selection from the gallery or a picture was taken and save the bitmap and the
-     * file path for the images.
+     * file path for the images. Additionally, it also get data from the next activity if it returns its execution.
+     * @param requestCode request code given when intent was created
+     * @param resultCode resulting code from intent that has finished
+     * @param data the completed intent
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -20,6 +20,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * This class holds all the endpoint calls to the server. It encapsulates client to server communication.
+ */
+
 public class Endpoints {
     private static String url = "http://18.220.189.219/";
     private static JSONObject jsonResponse;
@@ -33,14 +37,23 @@ public class Endpoints {
         countDownLatch = new CountDownLatch(1);
     }
 
+    public static String getServerURL() {
+        return url;
+    }
+
     /**
-     * This will get images from the server one at a time.  If the image fails then the user is take to the home screen and displayed
-     * an error toast message.
+     * This will GET a specific range of images from the server.
+     * On success the response will be a JSON object with all the image data
+     * On failure the response will be a null jSON object
+     * @param start start of id ranges to get from server
+     * @param end end of id ranges to get from server
      */
     public static JSONObject getImages(int start, int end) {
 
         OkHttpClient client = new OkHttpClient();
         String localURL = url + "images?start=" + start + "&end=" + end;
+
+        // Form request
         Request request = new Request.Builder()
                 .url(localURL)
                 .build();
@@ -83,13 +96,16 @@ public class Endpoints {
     }
 
     /**
-     * This will post images to the server one at a time.  If the image fails then the user is take to the home screen and displayed
-     * an error toast message.
+     * This will POST a single image to the server.
+     * Success returns a JSON with Image data. Failure will leave the JSON response as null.
+     * @param imagePath path to image on mobile device
+     * @param orientation orientation of image at imagePath
      */
-    public static JSONObject postFile(String imagePath, int orientation) {
+    public static JSONObject postImage(String imagePath, int orientation) {
 
             final MediaType MEDIA_TYPE;
 
+            // Verify image format
             if (imagePath.contains(".jpeg") || imagePath.contains(".jpg")){
                 MEDIA_TYPE = MediaType.parse("image/jpeg");
             } else if (imagePath.contains(".png")) {
@@ -103,6 +119,7 @@ public class Endpoints {
 
             String date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
 
+            // Form request
             RequestBody req = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("image", f.getName(), RequestBody.create(MEDIA_TYPE, f))
@@ -148,12 +165,17 @@ public class Endpoints {
     }
 
     /**
-     * This will  ping the server and delete images out on the server should the user wish to.
+     * Sends a DELETE request to the server to delete an Image.
+     * The request holds the image which will be deleted on the server.
+     * Success will leave the JSON response with a server confirmation of successful deletion.
+     * Failure will leave the JSON response as null.
+     * @param id id of image to delete on server
      */
     public static JSONObject deleteImage(int id){
         OkHttpClient client = new OkHttpClient();
         String localURL = url + "image?id=" + id;
 
+        // Form request
         Request request = new Request.Builder()
                 .url(localURL)
                 .delete()

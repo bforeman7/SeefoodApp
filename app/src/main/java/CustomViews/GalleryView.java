@@ -9,12 +9,21 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import ActivityController.Controllable;
 import ActivityController.GalleryActivity;
+import Communication.Endpoints;
 import ImageModel.Image;
 import ImageModel.ImageBundle;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import test.hulbert.seefood.R;
+
+/**
+ * View class for gallery. Handles view related logic.
+ */
 
 public class GalleryView implements ImageBundleView {
 
@@ -114,12 +123,12 @@ public class GalleryView implements ImageBundleView {
     private void displayImage() {
         Image image = imageBundle.getSpecificImage(index);
         Picasso.get()
-                .load("http://18.220.189.219/" + image.getsFilePath())
+                .load(Endpoints.getServerURL() + image.getsFilePath())
                 .rotate(image.getRotation())
                 .into(imageView);
         String[] path = image.getsFilePath().split("/");
-        tvName.setText(path[1]);
-        tvUploaded.setText(image.getDateTaken());
+        tvName.setText("Name: " + path[1]);
+        tvUploaded.setText("Date: " + image.getDateTaken());
         int rating = image.calculateStars();
         tvRating.setText(getFoodDialog(rating));
         ratingBar.setRating(image.calculateStars());
@@ -127,6 +136,7 @@ public class GalleryView implements ImageBundleView {
 
     /**
      * This will control our dialog to the user if the server sees food or not.  It will be based on the star rating
+     * @param starRating the integer rating
      */
     private String getFoodDialog(int starRating) {
         String dialog = "";
@@ -164,11 +174,19 @@ public class GalleryView implements ImageBundleView {
 
     }
 
+    /**
+     * Returns rootView of the view.
+     * @return View
+     */
     @Override
     public View getRootView() {
         return rootView;
     }
 
+    /**
+     * Binds a bundle of images to the view
+     * @param bundle
+     */
     @Override
     public void bindImageBundle(ImageBundle bundle) {
         if(bundle.getSize() > 0) {
